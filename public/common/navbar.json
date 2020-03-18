@@ -1,0 +1,116 @@
+{
+    "msg": "",
+    "data": [
+        {
+            "id": 311,
+            "uri": "/home",
+            "pName": "首页",
+            "pIcon": "el-icon-s-home",
+            "parentId": 0,
+            "permission": null,
+            "children": [
+                {
+                    "id": 312,
+                    "uri": "home",
+                    "pName": "首页",
+                    "pIcon": null,
+                    "parentId": 311,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                }
+            ],
+            "label": null,
+            "rid": 0,
+            "readerCount": 0
+        },
+        {
+            "id": 313,
+            "uri": "/manage",
+            "pName": "系统管理",
+            "pIcon": null,
+            "parentId": 0,
+            "permission": null,
+            "children": [
+                {
+                    "id": 314,
+                    "uri": "user",
+                    "pName": "用户管理",
+                    "pIcon": null,
+                    "parentId": 311,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 315,
+                    "uri": "role",
+                    "pName": "角色管理",
+                    "pIcon": null,
+                    "parentId": 311,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 316,
+                    "uri": "source",
+                    "pName": "资源管理",
+                    "pIcon": null,
+                    "parentId": 311,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 317,
+                    "uri": "dict",
+                    "pName": "字典管理",
+                    "pIcon": null,
+                    "parentId": 311,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 318,
+                    "uri": "administrative",
+                    "pName": "行政区划",
+                    "pIcon": null,
+                    "parentId": 311,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 319,
+                    "uri": "department",
+                    "pName": "部门管理",
+                    "pIcon": null,
+                    "parentId": 311,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                }
+            ],
+            "label": null,
+            "rid": 0,
+            "readerCount": 0
+        }
+    ],
+    "success": true
+}
