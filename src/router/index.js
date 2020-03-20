@@ -52,7 +52,27 @@ export const constantRouterMap = [{
         icon: 'home'
       }
     }]
-  }, {
+  },
+  {
+    path: '/echarts',
+    component: Layout,
+    redirect: '/echarts/map',
+    meta: {
+      title: '',
+      icon: "el-icon-star-off"
+    },
+    children: [{
+      path: 'mapone',
+      component: () =>
+        import("@/views/echarts/mapone"),
+      name: 'mapone',
+      meta: {
+        title: '地图',
+        icon: 'mapone'
+      }
+    }]
+  },
+  {
     path: '/manage',
     component: Layout,
     redirect: '/manage/user',

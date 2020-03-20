@@ -1,10 +1,10 @@
 <template>
   <el-breadcrumb class="breadCrumb">
     <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item,index) in breadList" :key="item.path" v-if='item.meta.title'>
+      <el-breadcrumb-item v-for="(item,index) in breadList" :key="item.path" v-if="item.meta.title">
         <i class="el-icon-document breadCrumb_icon" v-if="!index"></i>
-        <span v-if='item.redirect==="noredirect"||index==breadList.length-1' class="no-redirect">{{item.meta.title}}</span>
-        <!-- <router-link v-else :to="item.redirect||item.path" tag="span">{{item.label}}</router-link> -->
+        <span v-if="item.redirect==='noredirect'||index==breadList.length-1"  class="no-redirect">{{item.meta.title}}</span>
+        <router-link v-else :to="item.redirect||item.path" tag="span">{{item.label}}</router-link>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -60,19 +60,19 @@ export default {
       }
       let _this = this;
       let matched = this.$route.matched;
-      // matched.map(m => {
-      //   let nav = _this.navBar.find(n => {
-      //     if (this.navPath) {
-      //       return n[this.navPath] == m.path || n[this.navPath] == m.name;
-      //     } else {
-      //       return n.path == m.path || n.path == m.name;
-      //     }
-      //   });
-      //   if (nav) {
-      //     m.title =
-      //       (this.navTitle && nav[this.navTitle]) || nav.title;
-      //   }
-      // });
+      matched.map(m => {
+        let nav = _this.navBar.find(n => {
+          if (this.navPath) {
+            return n[this.navPath] == m.path || n[this.navPath] == m.name;
+          } else {
+            return n.path == m.path || n.path == m.name;
+          }
+        });
+        if (nav) {
+          m.title =
+            (this.navTitle && nav[this.navTitle]) || nav.title;
+        }
+      });
       this.breadList = matched;
     }
   }
