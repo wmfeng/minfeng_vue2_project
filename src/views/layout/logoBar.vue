@@ -1,8 +1,8 @@
 <template>
   <div class="logoBar">
     <div class="logo">
-      <i class="el-icon-goods"></i>
-      vue-template
+      <!-- <i class="el-icon-goods"></i> -->
+      project
     </div>
     <headDrop class="drop"></headDrop>
   </div>

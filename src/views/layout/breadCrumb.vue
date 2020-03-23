@@ -74,6 +74,7 @@ export default {
         }
       });
       this.breadList = matched;
+      console.log(222222,this.breadList)
     }
   }
 };

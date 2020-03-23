@@ -1,6 +1,6 @@
 <template>
   <div class="echartsMap">
-    <div class="mapOne a" ref="mapOne">
+    <div class="mapOne a">
         <mapGodown></mapGodown>
     </div>
     <div class="mapTwo a">one</div>
