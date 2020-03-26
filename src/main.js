@@ -8,6 +8,8 @@ import './plugins/element.js'
 import "@/directive"
 import './router/permission'
 import '@/components'
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
 

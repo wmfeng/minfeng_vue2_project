@@ -1,10 +1,106 @@
 <template>
-  <div class="mapgodown" ref="mapGodown">
-    <!-- <iframe src="../../../public/mapgodown/index.html" height="800"></iframe> -->
-  </div>
+  <div class="mapgodown" id="chart-panel" ref="mapGodown"></div>
 </template>
 
 <script>
+import request from "@/utils/request";
+var nanchang = require("../../assets/mapJson/jiangxi/nanchang.json");
+var jingdezhen = require("../../assets/mapJson/jiangxi/jingdezhen.json");
+var pos = {
+  leftPlus: 12,
+  leftCur: 70,
+  left: 15,
+  top: 15
+};
+var line = [
+  [0, 0],
+  [8, 11],
+  [0, 22]
+];
+var idx = 0;
+
+var style = {
+  font: '18px "Microsoft YaHei", sans-serif',
+  textColor: "#eee",
+  lineColor: "rgba(147, 235, 248, .8)"
+};
+var curGeoJson = {};
+var cityMap = {
+  南昌市: nanchang,
+  景德镇市: jingdezhen
+  // "萍乡市": pingxiang,
+  // "九江市": jiujiang,
+  // "新余市": xinyu,
+  // "鹰潭市": yingtan,
+  // "赣州市": ganzhou,
+  // "吉安市": jian,
+  // "宜春市": yichun,
+  // "抚州市": fuzhou,
+  // "上饶市": shangrao
+};
+var geoCoordMap = {
+  南昌: [115.89, 28.48],
+  景德镇: [117.28, 29.09],
+  萍乡: [113.93, 27.41],
+  九江: [115.97, 29.51],
+  新余: [114.81, 27.72],
+  鹰潭: [117.12, 28.1],
+  赣州: [115.04, 25.67],
+  吉安: [115.05, 26.88],
+  宜春: [114.41, 28.03],
+  抚州: [116.45, 27.79],
+  上饶: [117.92, 28.22]
+};
+var levelColorMap = {
+  "1": "rgba(241, 109, 115, .8)",
+  "2": "rgba(255, 235, 59, .7)",
+  "3": "rgba(147, 235, 248, 1)"
+};
+var defaultOpt = {
+  mapName: "china", // 地图展示
+  goDown: false, // 是否下钻
+  bgColor: "#404a59", // 画布背景色
+  activeArea: [], // 区域高亮,同echarts配置项
+  data: [],
+  // 下钻回调(点击的地图名、实例对象option、实例对象)
+  callback: function(name, option, instance) {}
+};
+var name = [];
+var opt = {
+  bgColor: "#154e90", // 画布背景色
+  mapName: "江西", // 地图名
+  goDown: true, // 是否下钻
+  // 下钻回调
+  callback: function(name, option, instance) {},
+  // 数据展示
+  data: [
+    {
+      name: "南昌",
+      value: 10,
+      level: 1
+    },
+    {
+      name: "景德镇",
+      value: 12,
+      level: 2
+    },
+    {
+      name: "萍乡",
+      value: 11,
+      level: 3
+    },
+    {
+      name: "赣州",
+      value: 16,
+      level: 2
+    },
+    {
+      name: "吉安",
+      value: 12,
+      level: 1
+    }
+  ]
+};
 export default {
   name: "mapGodown",
   data() {
@@ -12,235 +108,57 @@ export default {
   },
   methods: {
     extendsMap(opt) {
-      let oneMap = this.$echarts.init(this.$refs.mapGodown);
-      let curGeoJson = {};
-      let cityMap = {
-        "南昌市": require("../../../public/echartsJson/mapJson/nanchang.json")
-        // "景德镇市": jingdezhen,
-        // "萍乡市": pingxiang,
-        // "九江市": jiujiang,
-        // "新余市": xinyu,
-        // "鹰潭市": yingtan,
-        // "赣州市": ganzhou,
-        // "吉安市": jian,
-        // "宜春市": yichun,
-        // "抚州市": fuzhou,
-        // "上饶市": shangrao
-      };
-      let geoCoordMap = {
-        "南昌": [115.89, 28.48],
-        "景德镇": [117.28, 29.09],
-        "萍乡": [113.93, 27.41],
-        "九江": [115.97, 29.51],
-        "新余": [114.81, 27.72],
-        鹰潭: [117.12, 28.1],
-        赣州: [115.04, 25.67],
-        吉安: [115.05, 26.88],
-        宜春: [114.41, 28.03],
-        抚州: [116.45, 27.79],
-        上饶: [117.92, 28.22]
-      };
-      let levelColorMap = {
-        "1": "rgba(241, 109, 115, .8)",
-        "2": "rgba(255, 235, 59, .7)",
-        "3": "rgba(147, 235, 248, 1)"
-      };
-      let defaultOpt = {
-        mapName: "china", // 地图展示
-        goDown: false, // 是否下钻
-        bgColor: "#404a59", // 画布背景色
-        activeArea: [], // 区域高亮,同echarts配置项
-        data: [],
-        // 下钻回调(点击的地图名、实例对象option、实例对象)
-        callback: function(name, option, instance) {}
-      };
-      if (opt) opt = this.util.extend(defaultOpt, opt);
+      // 实例
+      let chart = this.$echarts.init(document.getElementById("chart-panel"));
+      if (opt) {
+        opt = this.$echarts.util.extend(defaultOpt, opt);
+      }
       // 层级索引
-      let name = [opt.mapName];
-      let idx = 0;
-      let pos = {
-        leftPlus: 115,
-        leftCur: 150,
-        left: 198,
-        top: 50
-      };
-
-      let line = [
-        [0, 0],
-        [8, 11],
-        [0, 22]
-      ];
-      // style
-      let style = {
-        font: '18px "Microsoft YaHei", sans-serif',
-        textColor: "#eee",
-        lineColor: "rgba(147, 235, 248, .8)"
-      };
-      let handleEvents = {
-        /**
-         * i 实例对象
-         * o option
-         * n 地图名
-         **/
-        resetOption: function(i, o, n) {
-          let breadcrumb = this.createBreadcrumb(n);
-
-          let j = name.indexOf(n);
-          let l = o.graphic.length;
-          if (j < 0) {
-            o.graphic.push(breadcrumb);
-            o.graphic[0].children[0].shape.x2 = 145;
-            o.graphic[0].children[1].shape.x2 = 145;
-            if (o.graphic.length > 2) {
-              for (let x = 0; x < opt.data.length; x++) {
-                if (n === opt.data[x].name + "市") {
-                  o.series[0].data = handleEvents.initSeriesData([opt.data[x]]);
-                  break;
-                } else o.series[0].data = [];
-              }
-            }
-            name.push(n);
-            idx++;
-          } else {
-            o.graphic.splice(j + 2, l);
-            if (o.graphic.length <= 2) {
-              o.graphic[0].children[0].shape.x2 = 60;
-              o.graphic[0].children[1].shape.x2 = 60;
-              o.series[0].data = handleEvents.initSeriesData(opt.data);
-            }
-            name.splice(j + 1, l);
-            idx = j;
-            pos.leftCur -= pos.leftPlus * (l - j - 1);
-          }
-
-          o.geo.map = n;
-          o.geo.zoom = 0.4;
-          i.clear();
-          i.setOption(o);
-          this.zoomAnimation();
-          opt.callback(n, o, i);
-        },
-
-        /**
-         * name 地图名
-         **/
-        createBreadcrumb: function(name) {
-          let cityToPinyin = {
-            南昌市: "nanchang",
-            景德镇市: "jingdezhen",
-            萍乡市: "pingxiang",
-            九江市: "jiujiang",
-            新余市: "xinyu",
-            鹰潭市: "yingtan",
-            赣州市: "ganzhou",
-            吉安市: "jian",
-            宜春市: "yichun",
-            抚州市: "fuzhou",
-            上饶市: "shangrao"
-          };
-          let breadcrumb = {
-            type: "group",
-            id: name,
-            left: pos.leftCur + pos.leftPlus,
-            top: pos.top + 3,
-            children: [
-              {
-                type: "polyline",
-                left: -90,
-                top: -5,
-                shape: {
-                  points: line
-                },
-                style: {
-                  stroke: "#fff",
-                  key: name
-                  // lineWidth: 2,
-                },
-                onclick: function() {
-                  let name = this.style.key;
-                  handleEvents.resetOption(oneMap, option, name);
-                }
-              },
-              {
-                type: "text",
-                left: -68,
-                top: "middle",
-                style: {
-                  text: name,
-                  textAlign: "center",
-                  fill: style.textColor,
-                  font: style.font
-                },
-                onclick: function() {
-                  let name = this.style.text;
-                  handleEvents.resetOption(oneMap, option, name);
-                }
-              },
-              {
-                type: "text",
-                left: -68,
-                top: 10,
-                style: {
-                  name: name,
-                  text: cityToPinyin[name]
-                    ? cityToPinyin[name].toUpperCase()
-                    : "",
-                  textAlign: "center",
-                  fill: style.textColor,
-                  font: '12px "Microsoft YaHei", sans-serif'
-                },
-                onclick: function() {
-                  // console.log(this.style);
-                  let name = this.style.name;
-                  handleEvents.resetOption(oneMap, option, name);
-                }
-              }
-            ]
-          };
-
-          pos.leftCur += pos.leftPlus;
-
-          return breadcrumb;
-        },
-
-        // 设置effectscatter
-        initSeriesData: function(data) {
-          let temp = [];
-          for (let i = 0; i < data.length; i++) {
-            let geoCoord = geoCoordMap[data[i].name];
-            if (geoCoord) {
-              temp.push({
-                name: data[i].name,
-                value: geoCoord.concat(data[i].value, data[i].level)
-              });
-            }
-          }
-          return temp;
-        },
-
-        zoomAnimation: function() {
-          let count = null;
-          let zoom = function(per) {
-            if (!count) count = per;
-            count = count + per;
-            // console.log(per,count);
-            oneMap.setOption({
-              geo: {
-                zoom: count
-              }
-            });
-            if (count < 1)
-              window.requestAnimationFrame(function() {
-                zoom(0.2);
-              });
-          };
-          window.requestAnimationFrame(function() {
-            zoom(0.2);
-          });
-        }
-      };
+      name = [opt.mapName];
+      let _this = this; //改变this指向（此this中可获取到echarts下registerMap方法）
       let option = {
         backgroundColor: opt.bgColor,
+        tooltip: {
+          //划过出现框
+          show: true,
+          trigger: "item",
+          padding: 0,
+          showDelay: 0,
+          hideDelay: 0,
+          enterable: true,
+          transitionDuration: 0,
+          extraCssText: "z-index:100",
+          backgroundColor: "transparent",
+          formatter: params => {
+            if (params.componentSubType == "map") {
+              return;
+            } else {
+              let str = `
+               <div class="echartstit">
+               总缺口量
+               <span style="color:red;">
+              ${params.name}
+               </span>
+               万立方米
+               </div>
+              `;
+              return str;
+            }
+          },
+          position: (point, params, dom, rect, size) => {
+            // 鼠标坐标和提示框位置的参考坐标系是：以外层div的左上角那一点为原点，x轴向右，y轴向下
+            // 提示框位置
+            // var x = 0; // x坐标位置
+            // var y = 0; // y坐标位置
+
+            // 当前鼠标位置
+            var pointX = point[0];
+            var pointY = point[1];
+            let x = pointX - size.contentSize[0] / 2 - 1;
+            let y = pointY - size.contentSize[1] - 20;
+            return [x, y];
+          }
+        },
         graphic: [
           {
             type: "group",
@@ -296,7 +214,7 @@ export default {
                 },
                 onclick: function() {
                   let name = this.style.key;
-                  handleEvents.resetOption(oneMap, option, name);
+                  _this.resetOption(chart, option, name);
                 }
               },
               {
@@ -310,7 +228,7 @@ export default {
                   font: style.font
                 },
                 onclick: function() {
-                  handleEvents.resetOption(oneMap, option, "江西");
+                  _this.resetOption(chart, option, "江西");
                 }
               },
               {
@@ -324,7 +242,7 @@ export default {
                   font: '12px "Microsoft YaHei", sans-serif'
                 },
                 onclick: function() {
-                  handleEvents.resetOption(oneMap, option, "江西");
+                  _this.resetOption(chart, option, "江西");
                 }
               }
             ]
@@ -332,7 +250,7 @@ export default {
         ],
         geo: {
           map: opt.mapName,
-          // roam: true,
+          roam: true, //控制地图是否可以放大缩小
           zoom: 1,
           label: {
             normal: {
@@ -431,91 +349,223 @@ export default {
                 shadowColor: "#333"
               }
             },
-            data: handleEvents.initSeriesData(opt.data)
+            data: this.initSeriesData(opt.data)
           }
         ]
       };
-
-      oneMap.setOption(option);
-      // 添加事件
-      oneMap.on("click", function(params) {
+      chart.setOption(option);
+      // 点击事件
+      chart.off("click");
+      chart.on("click", function(params) {
         let _self = this;
         if (opt.goDown && params.name !== name[idx]) {
           if (cityMap[params.name]) {
             let url = cityMap[params.name];
-            $.get(url, function(response) {
-              // console.log(response);
-              curGeoJson = response;
-              this.$echarts.registerMap(params.name, response);
-              handleEvents.resetOption(_self, option, params.name);
+            request(url, "get").then(res => {
+              curGeoJson.UTF8Encoding = res.config.UTF8Encoding;
+              curGeoJson.features = res.config.features;
+              curGeoJson.properties = res.config.properties;
+              curGeoJson.type = res.config.type;
+              _this.$echarts.registerMap(params.name, curGeoJson);
+              _this.resetOption(_self, option, params.name);
             });
           }
         }
       });
-
-      oneMap.setMap = function(mapName) {
+      chart.setMap = function(mapName) {
         let _self = this;
         if (mapName.indexOf("市") < 0) mapName = mapName + "市";
         let citySource = cityMap[mapName];
         if (citySource) {
           let url = "./map/" + citySource + ".json";
-          $.get(url, function(response) {
-            // console.log(response);
-            curGeoJson = response;
-            this.$echarts.registerMap(mapName, response);
-            handleEvents.resetOption(_self, option, mapName);
+          request(url, "get").then(res => {
+            curGeoJson.UTF8Encoding = res.config.UTF8Encoding;
+            curGeoJson.features = res.config.features;
+            curGeoJson.properties = res.config.properties;
+            curGeoJson.type = res.config.type;
+            _self.$echarts.registerMap(params.name, curGeoJson);
+            _self.resetOption(_this, option, params.name);
           });
         }
-        handleEvents.resetOption(this, option, mapName);
+        _this.resetOption(this, option, mapName);
       };
+      return chart;
+    },
+    // 初始化地图
+    initMap() {
       this.$echarts.registerMap(
         "江西",
-        require("../../../public/echartsJson/mapJson/jiangxi.json")
+        require("../../assets/mapJson/jiangxi/jiangxi.json")
       );
-
-      return oneMap;
+      this.extendsMap(opt);
     },
-    mapOne() {
-      // let oneMap = this.$echarts.init(this.$refs.mapGodown);
+    /**
+     * i 实例对象
+     * o option
+     * n 地图名
+     **/
+    resetOption(i, o, n) {
+      let breadcrumb = this.createBreadcrumb(n);
+      let j = name.indexOf(n);
+      let l = o.graphic.length;
+      if (j < 0) {
+        o.graphic.push(breadcrumb);
+        o.graphic[0].children[0].shape.x2 = 145;
+        o.graphic[0].children[1].shape.x2 = 145;
+        if (o.graphic.length > 2) {
+          for (let x = 0; x < opt.data.length; x++) {
+            if (n === opt.data[x].name + "市") {
+              o.series[0].data = this.initSeriesData([opt.data[x]]);
+              break;
+            } else o.series[0].data = [];
+          }
+        }
+        name.push(n);
+        idx++;
+      } else {
+        o.graphic.splice(j + 2, l);
+        if (o.graphic.length <= 2) {
+          o.graphic[0].children[0].shape.x2 = 60;
+          o.graphic[0].children[1].shape.x2 = 60;
+          o.series[0].data = this.initSeriesData(opt.data);
+        }
+        name.splice(j + 1, l);
+        idx = j;
+        pos.leftCur -= pos.leftPlus * (l - j - 1);
+      }
+
+      o.geo.map = n;
+      o.geo.zoom = 0.4;
+      i.clear();
+      i.setOption(o);
+      this.zoomAnimation();
+      opt.callback(n, o, i);
+    },
+    /*
+     * name 地图名
+     面包屑
+     **/
+    createBreadcrumb(name) {
+      let cityToPinyin = {
+        南昌市: "nanchang",
+        景德镇市: "jingdezhen",
+        萍乡市: "pingxiang",
+        九江市: "jiujiang",
+        新余市: "xinyu",
+        鹰潭市: "yingtan",
+        赣州市: "ganzhou",
+        吉安市: "jian",
+        宜春市: "yichun",
+        抚州市: "fuzhou",
+        上饶市: "shangrao"
+      };
+      let breadcrumb = {
+        type: "group",
+        id: name,
+        left: pos.leftCur + pos.leftPlus,
+        top: pos.top + 3,
+        children: [
+          {
+            type: "polyline",
+            left: -90,
+            top: -5,
+            shape: {
+              points: line
+            },
+            style: {
+              stroke: "#fff",
+              key: name
+              // lineWidth: 2,
+            },
+            onclick: function() {
+              let name = this.style.key;
+              this.resetOption(chart, option, name);
+            }
+          },
+          {
+            type: "text",
+            left: -68,
+            top: "middle",
+            style: {
+              text: name,
+              textAlign: "center",
+              fill: style.textColor,
+              font: style.font
+            },
+            onclick: function() {
+              let name = this.style.text;
+              this.resetOption(chart, option, name);
+            }
+          },
+          {
+            type: "text",
+            left: -68,
+            top: 10,
+            style: {
+              name: name,
+              text: cityToPinyin[name] ? cityToPinyin[name].toUpperCase() : "",
+              textAlign: "center",
+              fill: style.textColor,
+              font: '12px "Microsoft YaHei", sans-serif'
+            },
+            onclick: function() {
+              let name = this.style.name;
+              this.resetOption(chart, option, name);
+            }
+          }
+        ]
+      };
+      pos.leftCur += pos.leftPlus;
+      return breadcrumb;
+    },
+    /*
+      设置effectscatter
+      后台获取回来的数据可通过此处传入
+      展示数据，鼠标划过展示具体数值可从此处传递到tooltip下params中的值
+    */
+
+    initSeriesData(data) {
+      let temp = [];
+      for (let i = 0; i < data.length; i++) {
+        let geoCoord = geoCoordMap[data[i].name];
+        if (geoCoord) {
+          temp.push({
+            name: data[i].name,
+            value: geoCoord.concat(data[i].value, data[i].level),
+            dataOne: "2222"
+          });
+        }
+      }
+      return temp;
+    },
+    /*
+      下钻之后地图不会呈缩略状态
+    */
+
+    zoomAnimation() {
+      let chart = this.$echarts.init(document.getElementById("chart-panel"));
+      let count = null;
+      let zoom = function(per) {
+        if (!count) count = per;
+        count = count + per;
+        chart.setOption({
+          geo: {
+            zoom: count
+          }
+        });
+        if (count < 1)
+          window.requestAnimationFrame(function() {
+            zoom(0.2);
+          });
+      };
+      window.requestAnimationFrame(function() {
+        zoom(0.2);
+      });
     }
   },
   mounted() {
-    this.extendsMap({
-      bgColor: "#154e90", // 画布背景色
-      mapName: "江西", // 地图名
-      goDown: true, // 是否下钻
-      // 下钻回调
-      callback: function(name, option, instance) {
-        console.log(name, option, instance);
-      },
-      // 数据展示
-      data: [
-        {
-          name: "南昌",
-          value: 10,
-          level: 1
-        },
-        {
-          name: "景德镇",
-          value: 12,
-          level: 2
-        },
-        {
-          name: "萍乡",
-          value: 11,
-          level: 3
-        },
-        {
-          name: "赣州",
-          value: 16,
-          level: 2
-        },
-        {
-          name: "吉安",
-          value: 12,
-          level: 1
-        }
-      ]
+    this.$nextTick(() => {
+      this.initMap();
     });
   }
 };
@@ -524,5 +574,22 @@ export default {
 <style lang="scss" scoped>
 .mapgodown {
   height: 40vh;
+}
+</style>
+<style lang="scss">
+.echartstit {
+  padding: 20px;
+  background-image: url("../../assets/images/1 (2).png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: #000;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    font-size: 10px;
+  }
 }
 </style>

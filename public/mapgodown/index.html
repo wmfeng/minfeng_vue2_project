@@ -24,10 +24,9 @@
     var nanchang = "../echartsJson/mapJson/nanchang.json";
 
 
-    echarts.extendsMap = function (id, opt) {
+    var extendsMap = function (opt) {
         // 实例
-        var chart = this.init(document.getElementById(id));
-
+        var chart = echarts.init(document.getElementById("chart-panel"));
         var curGeoJson = {};
         var cityMap = {
             "南昌市": nanchang,
@@ -60,7 +59,6 @@
             '2': 'rgba(255, 235, 59, .7)',
             '3': 'rgba(147, 235, 248, 1)'
         };
-
         var defaultOpt = {
             mapName: 'china',     // 地图展示
             goDown: false,        // 是否下钻
@@ -70,7 +68,9 @@
             // 下钻回调(点击的地图名、实例对象option、实例对象)
             callback: function (name, option, instance) { }
         };
-        if (opt) opt = this.util.extend(defaultOpt, opt);
+        if (opt) {
+            opt = echarts.util.extend(defaultOpt, opt);
+        }
 
         // 层级索引
         var name = [opt.mapName];
@@ -81,7 +81,6 @@
             left: 198,
             top: 50
         };
-
         var line = [[0, 0], [8, 11], [0, 22]];
         // style
         var style = {
@@ -89,164 +88,158 @@
             textColor: '#eee',
             lineColor: 'rgba(147, 235, 248, .8)'
         };
-
-        var handleEvents = {
-            /**
+        /**
              * i 实例对象
              * o option
              * n 地图名
             **/
-            resetOption: function (i, o, n) {
-                var breadcrumb = this.createBreadcrumb(n);
-
-                var j = name.indexOf(n);
-                var l = o.graphic.length;
-                if (j < 0) {
-                    o.graphic.push(breadcrumb);
-                    o.graphic[0].children[0].shape.x2 = 145;
-                    o.graphic[0].children[1].shape.x2 = 145;
-                    if (o.graphic.length > 2) {
-                        for (var x = 0; x < opt.data.length; x++) {
-                            if (n === opt.data[x].name + '市') {
-                                o.series[0].data = handleEvents.initSeriesData([opt.data[x]]);
-                                break;
-                            } else o.series[0].data = [];
-                        }
-                    };
-                    name.push(n);
-                    idx++;
-                } else {
-                    o.graphic.splice(j + 2, l);
-                    if (o.graphic.length <= 2) {
-                        o.graphic[0].children[0].shape.x2 = 60;
-                        o.graphic[0].children[1].shape.x2 = 60;
-                        o.series[0].data = handleEvents.initSeriesData(opt.data);
-                    };
-                    name.splice(j + 1, l);
-                    idx = j;
-                    pos.leftCur -= pos.leftPlus * (l - j - 1);
-                };
-
-                o.geo.map = n;
-                o.geo.zoom = 0.4;
-                i.clear();
-                i.setOption(o);
-                this.zoomAnimation();
-                opt.callback(n, o, i);
-            },
-
-            /**
-             * name 地图名
-            **/
-            createBreadcrumb: function (name) {
-                var cityToPinyin = {
-                    "南昌市": "nanchang",
-                    "景德镇市": "jingdezhen",
-                    "萍乡市": "pingxiang",
-                    "九江市": "jiujiang",
-                    "新余市": "xinyu",
-                    "鹰潭市": "yingtan",
-                    "赣州市": "ganzhou",
-                    "吉安市": "jian",
-                    "宜春市": "yichun",
-                    "抚州市": "fuzhou",
-                    "上饶市": "shangrao"
-                };
-                var breadcrumb = {
-                    type: 'group',
-                    id: name,
-                    left: pos.leftCur + pos.leftPlus,
-                    top: pos.top + 3,
-                    children: [{
-                        type: 'polyline',
-                        left: -90,
-                        top: -5,
-                        shape: {
-                            points: line
-                        },
-                        style: {
-                            stroke: '#fff',
-                            key: name
-                            // lineWidth: 2,
-                        },
-                        onclick: function () {
-                            var name = this.style.key;
-                            handleEvents.resetOption(chart, option, name);
-                        }
-                    }, {
-                        type: 'text',
-                        left: -68,
-                        top: 'middle',
-                        style: {
-                            text: name,
-                            textAlign: 'center',
-                            fill: style.textColor,
-                            font: style.font
-                        },
-                        onclick: function () {
-                            var name = this.style.text;
-                            handleEvents.resetOption(chart, option, name);
-                        }
-                    }, {
-                        type: 'text',
-                        left: -68,
-                        top: 10,
-                        style: {
-
-                            name: name,
-                            text: cityToPinyin[name] ? cityToPinyin[name].toUpperCase() : '',
-                            textAlign: 'center',
-                            fill: style.textColor,
-                            font: '12px "Microsoft YaHei", sans-serif',
-                        },
-                        onclick: function () {
-                            // console.log(this.style);
-                            var name = this.style.name;
-                            handleEvents.resetOption(chart, option, name);
-                        }
-                    }]
-                }
-
-                pos.leftCur += pos.leftPlus;
-
-                return breadcrumb;
-            },
-
-            // 设置effectscatter
-            initSeriesData: function (data) {
-                var temp = [];
-                for (var i = 0; i < data.length; i++) {
-                    var geoCoord = geoCoordMap[data[i].name];
-                    if (geoCoord) {
-                        temp.push({
-                            name: data[i].name,
-                            value: geoCoord.concat(data[i].value, data[i].level)
-                        });
+        function resetOption(i, o, n) {
+            var breadcrumb = createBreadcrumb(n);
+            var j = name.indexOf(n);
+            var l = o.graphic.length;
+            if (j < 0) {
+                o.graphic.push(breadcrumb);
+                o.graphic[0].children[0].shape.x2 = 145;
+                o.graphic[0].children[1].shape.x2 = 145;
+                if (o.graphic.length > 2) {
+                    for (var x = 0; x < opt.data.length; x++) {
+                        if (n === opt.data[x].name + '市') {
+                            o.series[0].data = initSeriesData([opt.data[x]]);
+                            break;
+                        } else o.series[0].data = [];
                     }
                 };
-                return temp;
-            },
-
-            zoomAnimation: function () {
-                var count = null;
-                var zoom = function (per) {
-                    if (!count) count = per;
-                    count = count + per;
-                    // console.log(per,count);
-                    chart.setOption({
-                        geo: {
-                            zoom: count
-                        }
-                    });
-                    if (count < 1) window.requestAnimationFrame(function () {
-                        zoom(0.2);
-                    });
+                name.push(n);
+                idx++;
+            } else {
+                o.graphic.splice(j + 2, l);
+                if (o.graphic.length <= 2) {
+                    o.graphic[0].children[0].shape.x2 = 60;
+                    o.graphic[0].children[1].shape.x2 = 60;
+                    o.series[0].data = initSeriesData(opt.data);
                 };
-                window.requestAnimationFrame(function () {
+                name.splice(j + 1, l);
+                idx = j;
+                pos.leftCur -= pos.leftPlus * (l - j - 1);
+            };
+
+            o.geo.map = n;
+            o.geo.zoom = 0.4;
+            i.clear();
+            i.setOption(o);
+            zoomAnimation();
+            opt.callback(n, o, i);
+        };
+
+            /*
+             * name 地图名
+            **/
+        function createBreadcrumb(name) {
+            var cityToPinyin = {
+                "南昌市": "nanchang",
+                "景德镇市": "jingdezhen",
+                "萍乡市": "pingxiang",
+                "九江市": "jiujiang",
+                "新余市": "xinyu",
+                "鹰潭市": "yingtan",
+                "赣州市": "ganzhou",
+                "吉安市": "jian",
+                "宜春市": "yichun",
+                "抚州市": "fuzhou",
+                "上饶市": "shangrao"
+            };
+            var breadcrumb = {
+                type: 'group',
+                id: name,
+                left: pos.leftCur + pos.leftPlus,
+                top: pos.top + 3,
+                children: [{
+                    type: 'polyline',
+                    left: -90,
+                    top: -5,
+                    shape: {
+                        points: line
+                    },
+                    style: {
+                        stroke: '#fff',
+                        key: name
+                        // lineWidth: 2,
+                    },
+                    onclick: function () {
+                        var name = this.style.key;
+                        resetOption(chart, option, name);
+                    }
+                }, {
+                    type: 'text',
+                    left: -68,
+                    top: 'middle',
+                    style: {
+                        text: name,
+                        textAlign: 'center',
+                        fill: style.textColor,
+                        font: style.font
+                    },
+                    onclick: function () {
+                        var name = this.style.text;
+                        resetOption(chart, option, name);
+                    }
+                }, {
+                    type: 'text',
+                    left: -68,
+                    top: 10,
+                    style: {
+
+                        name: name,
+                        text: cityToPinyin[name] ? cityToPinyin[name].toUpperCase() : '',
+                        textAlign: 'center',
+                        fill: style.textColor,
+                        font: '12px "Microsoft YaHei", sans-serif',
+                    },
+                    onclick: function () {
+                        var name = this.style.name;
+                        resetOption(chart, option, name);
+                    }
+                }]
+            }
+
+            pos.leftCur += pos.leftPlus;
+
+            return breadcrumb;
+        };
+
+        // 设置effectscatter
+        function initSeriesData(data) {
+            var temp = [];
+            for (var i = 0; i < data.length; i++) {
+                var geoCoord = geoCoordMap[data[i].name];
+                if (geoCoord) {
+                    temp.push({
+                        name: data[i].name,
+                        value: geoCoord.concat(data[i].value, data[i].level)
+                    });
+                }
+            };
+            return temp;
+        };
+
+        function zoomAnimation() {
+            var count = null;
+            var zoom = function (per) {
+                if (!count) count = per;
+                count = count + per;
+                chart.setOption({
+                    geo: {
+                        zoom: count
+                    }
+                });
+                if (count < 1) window.requestAnimationFrame(function () {
                     zoom(0.2);
                 });
-            }
-        };
+            };
+            window.requestAnimationFrame(function () {
+                zoom(0.2);
+            });
+        }
 
         var option = {
             backgroundColor: opt.bgColor,
@@ -299,7 +292,7 @@
                     },
                     onclick: function () {
                         var name = this.style.key;
-                        handleEvents.resetOption(chart, option, name);
+                        resetOption(chart, option, name);
                     }
                 }, {
                     type: 'text',
@@ -312,7 +305,7 @@
                         font: style.font
                     },
                     onclick: function () {
-                        handleEvents.resetOption(chart, option, '江西');
+                        resetOption(chart, option, '江西');
                     }
                 }, {
                     type: 'text',
@@ -325,7 +318,7 @@
                         font: '12px "Microsoft YaHei", sans-serif',
                     },
                     onclick: function () {
-                        handleEvents.resetOption(chart, option, '江西');
+                        resetOption(chart, option, '江西');
                     }
                 }]
             }],
@@ -426,7 +419,7 @@
                         shadowColor: '#333'
                     }
                 },
-                data: handleEvents.initSeriesData(opt.data)
+                data: initSeriesData(opt.data)
             }]
         };
 
@@ -438,10 +431,9 @@
                 if (cityMap[params.name]) {
                     var url = cityMap[params.name];
                     $.get(url, function (response) {
-                        // console.log(response);
                         curGeoJson = response;
-                        echarts.registerMap(params.name, response);
-                        handleEvents.resetOption(_self, option, params.name);
+                        echarts.registerMap(params.name, curGeoJson);
+                        resetOption(_self, option, params.name);
                     });
                 }
             }
@@ -454,13 +446,12 @@
             if (citySource) {
                 var url = './map/' + citySource + '.json';
                 $.get(url, function (response) {
-                    // console.log(response);
                     curGeoJson = response;
                     echarts.registerMap(mapName, response);
-                    handleEvents.resetOption(_self, option, mapName);
+                    resetOption(_self, option, mapName);
                 });
             }
-            handleEvents.resetOption(this, option, mapName);
+            resetOption(this, option, mapName);
         };
 
         return chart;
@@ -468,15 +459,14 @@
 
     $.getJSON(jiangxi, function (geoJson) {
         echarts.registerMap('江西', geoJson);
-        var myChart = echarts.extendsMap('chart-panel', {
+        extendsMap({
             bgColor: '#154e90', // 画布背景色
             mapName: '江西',    // 地图名
             goDown: true,       // 是否下钻
             // 下钻回调
             callback: function (name, option, instance) {
-                console.log(name, option, instance);
             },
-            // 数据展示            	
+            // 数据展示
             data: [{
                 name: '南昌',
                 value: 10,

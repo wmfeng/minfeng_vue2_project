@@ -25,8 +25,7 @@ export default {
     data333: Number
   },
   watch: {
-    data(val) {
-      debugger;
+    data333(val) {
     },
     newModal(val) {
       this.newModalToggle = val;
