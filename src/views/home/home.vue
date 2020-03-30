@@ -250,7 +250,7 @@ export default {
     .con_d {
       p {
         background-image: url("../../assets/images/home/con_wdrw.png");
-        background-position: left;
+        background-position: left center;
         background-repeat: no-repeat;
       }
     }
