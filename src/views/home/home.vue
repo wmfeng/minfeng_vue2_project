@@ -229,21 +229,21 @@ export default {
     .con_a {
       p {
         background-image: url("../../assets/images/home/con_gyxx.png");
-        background-position: left;
+        background-position: left center;
         background-repeat: no-repeat;
       }
     }
     .con_b {
       p {
         background-image: url("../../assets/images/home/con_djlx.png");
-        background-position: left;
+        background-position: left center;
         background-repeat: no-repeat;
       }
     }
     .con_c {
       p {
         background-image: url("../../assets/images/home/con_xmjd.png");
-        background-position: left;
+        background-position: left center;
         background-repeat: no-repeat;
       }
     }
