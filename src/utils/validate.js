@@ -10,10 +10,6 @@ export default {
     var mobile = /^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/;
     return length == 11 && mobile.test(val)
   },
-  validPassword: function validPassword(val) {
-    const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/;
-    return reg.test(val)
-  },
   //# 字符串匹配
   //是否为 数字！整数，浮点数
   isNum: function (num) { //# 是否为数组
@@ -87,6 +83,12 @@ export default {
   }
 
 }
+
+export function validPassword(val) {
+  const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/;
+  return reg.test(val)
+}
+
 
 export function validPassword2(val) {
   //必须包含字母，数字，特殊符号，并且长度最少为8,最长为50
@@ -236,7 +238,7 @@ let validateObj = {
     } else {
       callback(new Error('请输入正整数'));
     }
-  }, 
+  },
   // 保留一位小数
   isNumber4: (rule, value, callback) => {
     let reg = /^(\d+|\d+\.\d{1,1})$/
@@ -248,7 +250,7 @@ let validateObj = {
     } else {
       callback(new Error('只能保留一位小数'));
     }
-  }, 
+  },
   // 大于0小于100
   isNumber5: (rule, value, callback) => {
     let reg = /^100$|^(\d|[1-9]\d)(\.\d+)*$/;

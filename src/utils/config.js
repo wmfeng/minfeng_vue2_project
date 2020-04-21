@@ -109,3 +109,128 @@ export function moneyText(money) {
     return str;
   }
 }
+
+// 行政区划过滤children为空
+export function handleEmpty(data) {
+  data.map(i => {
+    if (i.children) {
+      if (i.children.length) {
+        handleEmpty(i.children)
+      } else {
+        delete i.children;
+      }
+    }
+  })
+  return data;
+}
+
+export function handleNextCode(code, myCode, data) {
+  if (code.length == 12) {
+    return;
+  }
+  let data2 = [];
+  if (code == myCode.substring(0, 2) && code.length < myCode.length) { //省级
+    data.map(d => {
+      if (d.code == myCode.substring(0, 4)) {
+        data2.push(d);
+        console.log(data2)
+        return data2;
+      }
+    });
+  } else if (code == myCode.substring(0, 4) && code.length < myCode.length) { //市级
+    data.map(d => {
+      if (d.code == myCode.substring(0, 6)) {
+        data2.push(d);
+        return data2;
+      }
+    });
+  } else if (code == myCode.substring(0, 6) && code.length < myCode.length) { //县级
+    data.map(d => {
+      if (d.code == myCode.substring(0, 9)) {
+        data2.push(d);
+        return data2;
+      }
+    });
+  } else if (code == myCode.substring(0, 9) && code.length < myCode.length) { //镇级
+    data.map(d => {
+      if (d.code == myCode.substring(0, 12)) {
+        data2.push(d);
+        return data2;
+      }
+    });
+  } //点击区划小于等于登录人区划，直接赋值
+  else {
+    data2 = data;
+  }
+  return data2;
+}
+
+//打印
+export function printExcel(id) {
+  // let Print = document.getElementById(id);
+  // let arr = Array.prototype.slice.call(Print.getElementsByClassName('el-table__body')[0].getElementsByClassName('cell'));
+  // let tab = Array.prototype.slice.call(Print.querySelectorAll('table'));
+  // debugger
+  // arr.map(i=>{
+  //     i.setAttribute("style","width:100%!important");
+  // })
+  // tab.map(j=>{
+  //   j.setAttribute("style","width:100%!important");
+  // })
+  // let newContent = Print.innerHTML;
+  // let oldContent = document.body.innerHTML;
+  // document.body.innerHTML = newContent;
+  // window.print();
+  // document.body.innerHTML = oldContent;
+  // window.location.reload();
+  // return false
+  let printStr = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head>";
+  const tabStyle = `<style>
+  table{width:100%;display:table-cell!important;box-sizing:border-box;}
+  .el-table__header,.el-table__body,.el-table__footer{width:100%!important;border-collapse: collapse;text-align:center;}
+  table,table tr th, table tr td { border:1px solid #ddd;color:#606266;word-wrap:break-word}
+  table tr th,table tr td{padding:4mm 0mm;word-wrap:break-word }
+  .el-table__body, tr td .cell{width:100%!important}
+  .el-table th.gutter{display: none;}
+  .el-table colgroup.gutter{display: none;}
+  </style><body>`;
+  let content = "";
+  let str = document.getElementById(id).innerHTML;
+  content = content + str;
+  printStr = printStr + tabStyle + content + "</body></html>";
+  let pwin = window.open("_blank");
+  pwin.document.write(printStr);
+  pwin.document.close();
+  pwin.focus();
+  setTimeout(() => {
+    pwin.print();
+    pwin.close();
+  }, 500);
+
+}
+
+//导出
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx';
+export function exportExcel(id) {
+  // var arr = Array.prototype.slice.call(document.getElementsByClassName('has-gutter')[1].getElementsByClassName('is-leaf'));
+  // arr.map(i => {
+  //   i.setAttribute("rowspan", "1");
+  // })
+  /* generate workbook object from table */
+  var wb = XLSX.utils.table_to_book(document.querySelector('#' + id))
+  /* get binary string as output */
+  var wbout = XLSX.write(wb, {
+    bookType: 'xlsx',
+    bookSST: true,
+    type: 'array'
+  })
+  try {
+    FileSaver.saveAs(new Blob([wbout], {
+      type: 'application/octet-stream'
+    }), id + '.xlsx')
+  } catch (e) {
+    if (typeof console !== 'undefined') console.log(e, wbout)
+  }
+  return wbout
+}

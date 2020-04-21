@@ -4,14 +4,15 @@ import 'animate.css/animate.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import echarts from 'echarts'
 import './plugins/element.js'
 import "@/directive"
 import './router/permission'
 import '@/components'
-import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
+
 
 Vue.config.productionTip = false
+Vue.prototype.$echarts = echarts
 
 new Vue({
   router,

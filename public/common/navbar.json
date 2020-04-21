@@ -2,7 +2,7 @@
     "msg": "",
     "data": [
         {
-            "id": 311,
+            "id": 1,
             "uri": "/home",
             "pName": "首页",
             "pIcon": "el-icon-s-home",
@@ -10,11 +10,11 @@
             "permission": null,
             "children": [
                 {
-                    "id": 312,
+                    "id": 11,
                     "uri": "home",
                     "pName": "首页",
                     "pIcon": null,
-                    "parentId": 311,
+                    "parentId": 1,
                     "permission": null,
                     "children": [],
                     "label": null,
@@ -27,104 +27,19 @@
             "readerCount": 0
         },
         {
-            "id": 1,
-            "uri": "/echarts",
+            "id": 2,
+            "uri": "/home",
             "pName": "首页",
-            "pIcon": "el-icon-s-promotion",
-            "parentId": 1,
-            "permission": null,
-            "children": [
-                {
-                    "id": 2,
-                    "uri": "mapone",
-                    "pName": "地图",
-                    "pIcon": null,
-                    "parentId": 3,
-                    "permission": null,
-                    "children": [],
-                    "label": null,
-                    "rid": 1,
-                    "readerCount": 2
-                }
-            ],
-            "label": null,
-            "rid": 3,
-            "readerCount": 3
-        },
-        {
-            "id": 313,
-            "uri": "/manage",
-            "pName": "系统管理",
-            "pIcon": null,
+            "pIcon": "el-icon-s-home",
             "parentId": 0,
             "permission": null,
             "children": [
                 {
-                    "id": 314,
-                    "uri": "user",
-                    "pName": "用户管理",
+                    "id": 21,
+                    "uri": "home",
+                    "pName": "首页",
                     "pIcon": null,
-                    "parentId": 311,
-                    "permission": null,
-                    "children": [],
-                    "label": null,
-                    "rid": 0,
-                    "readerCount": 0
-                },
-                {
-                    "id": 315,
-                    "uri": "role",
-                    "pName": "角色管理",
-                    "pIcon": null,
-                    "parentId": 311,
-                    "permission": null,
-                    "children": [],
-                    "label": null,
-                    "rid": 0,
-                    "readerCount": 0
-                },
-                {
-                    "id": 316,
-                    "uri": "source",
-                    "pName": "资源管理",
-                    "pIcon": null,
-                    "parentId": 311,
-                    "permission": null,
-                    "children": [],
-                    "label": null,
-                    "rid": 0,
-                    "readerCount": 0
-                },
-                {
-                    "id": 317,
-                    "uri": "dict",
-                    "pName": "字典管理",
-                    "pIcon": null,
-                    "parentId": 311,
-                    "permission": null,
-                    "children": [],
-                    "label": null,
-                    "rid": 0,
-                    "readerCount": 0
-                },
-                {
-                    "id": 318,
-                    "uri": "administrative",
-                    "pName": "行政区划",
-                    "pIcon": null,
-                    "parentId": 311,
-                    "permission": null,
-                    "children": [],
-                    "label": null,
-                    "rid": 0,
-                    "readerCount": 0
-                },
-                {
-                    "id": 319,
-                    "uri": "department",
-                    "pName": "部门管理",
-                    "pIcon": null,
-                    "parentId": 311,
+                    "parentId": 2,
                     "permission": null,
                     "children": [],
                     "label": null,
