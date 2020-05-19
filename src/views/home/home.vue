@@ -45,7 +45,8 @@
       </div>
       <div class="b con_d">
         <p>我的任务</p>
-        <div class="echarts"></div>
+        <div class="echarts">
+        </div>
       </div>
     </div>
   </div>
@@ -53,10 +54,10 @@
 <script>
 import { EchartsOne, EchartsTwo, EchartsThree } from "@/assets/echarts/home";
 export default {
-  components: {
-  },
+  components: {},
   data() {
-    return {};
+    return {
+    };
   },
   methods: {
     // 供应项目统计
@@ -114,13 +115,23 @@ export default {
     // 项目进度统计
     echartsThree() {
       let echartsThree = this.$echarts.init(this.$refs.echartsThree);
-      let xData = ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'];
+      let xData = [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ];
       let sData1 = [400, 400, 300, 300, 300, 400, 400, 400, 300];
       let sData2 = [400, 500, 500, 500, 500, 400, 400, 500, 500];
       let sData3 = [400, 600, 700, 700, 1000, 400, 400, 600, 700];
-      echartsThree.setOption(EchartsThree(xData,sData1,sData2,sData3));
+      echartsThree.setOption(EchartsThree(xData, sData1, sData2, sData3));
       let app = { currentIndex: -1 };
-      setInterval(function() {//定时器
+      setInterval(function() {
+        //定时器
         let dataLen = echartsThree._model.option.series[0].data.length;
         // 取消之前高亮的图形
         echartsThree.dispatchAction({

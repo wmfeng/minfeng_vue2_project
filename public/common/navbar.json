@@ -28,18 +28,55 @@
         },
         {
             "id": 2,
-            "uri": "/home",
-            "pName": "首页",
-            "pIcon": "el-icon-s-home",
+            "uri": "/test",
+            "pName": "技能实践",
+            "pIcon": "el-icon-s-unfold",
             "parentId": 0,
             "permission": null,
             "children": [
                 {
                     "id": 21,
-                    "uri": "home",
-                    "pName": "首页",
+                    "uri": "test",
+                    "pName": "技能实践",
                     "pIcon": null,
                     "parentId": 2,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                }
+            ],
+            "label": null,
+            "rid": 0,
+            "readerCount": 0
+        },
+        {
+            "id": 3,
+            "uri": "/print",
+            "pName": "打印功能",
+            "pIcon": "el-icon-printer",
+            "parentId": 0,
+            "permission": null,
+            "children": [
+                {
+                    "id": 31,
+                    "uri": "lodopprint",
+                    "pName": "Lodop打印",
+                    "pIcon": null,
+                    "parentId": 3,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 32,
+                    "uri": "browserprint",
+                    "pName": "浏览器打印",
+                    "pIcon": null,
+                    "parentId": 3,
                     "permission": null,
                     "children": [],
                     "label": null,

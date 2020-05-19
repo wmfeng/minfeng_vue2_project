@@ -54,23 +54,53 @@ export const constantRouterMap = [{
     }]
   },
   {
-    path: '/echarts',
+    path: '/test',
     component: Layout,
-    redirect: '/echarts/map',
+    redirect: '/test/test',
     meta: {
       title: '',
       icon: "el-icon-star-off"
     },
     children: [{
-      path: 'mapone',
+      path: 'test',
       component: () =>
-        import("@/views/echarts/mapone"),
-      name: 'mapone',
+        import("@/views/test/test"),
+      name: 'test',
       meta: {
-        title: '地图',
-        icon: 'mapone'
+        title: '技能实践',
+        icon: 'test'
       }
     }]
+  },
+  {
+    path: '/print',
+    component: Layout,
+    redirect: '/print/print',
+    meta: {
+      title: '',
+      icon: "el-icon-star-off"
+    },
+    children: [{
+      path: 'lodopprint',
+      component: () =>
+        import("@/views/print/cLodopPrint"),
+      name: 'lodopprint',
+      meta: {
+        title: 'Lodop打印',
+        icon: 'lodopprint'
+      }
+    },
+    {
+      path: 'browserprint',
+      component: () =>
+        import("@/views/print/browserPrint"),
+      name: 'browserprint',
+      meta: {
+        title: 'Browser打印',
+        icon: 'browserprint'
+      }
+    },
+  ]
   },
   {
     path: '/manage',

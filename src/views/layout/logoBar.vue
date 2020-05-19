@@ -2,7 +2,7 @@
   <div class="logoBar">
     <div class="logo">
       <!-- <i class="el-icon-goods"></i> -->
-      <a
+      <!-- <a
         href="/help/云南接口文档.docx"
         download="云南接口文档.docx"
         id="help"
@@ -10,7 +10,7 @@
       >
         使用说明
         <i class="el-icon-download"></i>
-      </a>
+      </a> -->
     </div>
     <headDrop class="drop"></headDrop>
   </div>
