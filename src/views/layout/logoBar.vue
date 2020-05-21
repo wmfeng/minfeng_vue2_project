@@ -1,16 +1,10 @@
 <template>
   <div class="logoBar">
     <div class="logo">
-      <!-- <i class="el-icon-goods"></i> -->
-      <!-- <a
-        href="/help/云南接口文档.docx"
-        download="云南接口文档.docx"
-        id="help"
-        style="color:#fff;font-size:14px; margin-right:30px;"
-      >
-        使用说明
-        <i class="el-icon-download"></i>
-      </a> -->
+      <el-radio-group v-model="lang" size="small">
+        <el-radio label="zh" border>简体中文</el-radio>
+        <el-radio label="en" border>English</el-radio>
+      </el-radio-group>
     </div>
     <headDrop class="drop"></headDrop>
   </div>
@@ -29,6 +23,17 @@ export default {
       baseUrl: process.env.VUE_APP_BASE_URL
     };
   },
+  computed: {
+    lang: {
+      get() {
+        return this.$store.state.app.language;
+      },
+      set(lang) {
+        this.$i18n.locale = lang;
+        this.$store.dispatch("setLanguage", lang);
+      }
+    }
+  },
   methods: {}
 };
 </script>
@@ -36,7 +41,7 @@ export default {
 @import "../../assets/style/variable.scss";
 .logoBar {
   height: $logoHeight;
-  background-color: $color;
+  background-color: #4497d1;
   .logo {
     float: left;
     width: 50%;

@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import echarts from 'echarts'
+import i18n from "./i18n"
 import './plugins/element.js'
 import "@/directive"
 import './router/permission'
@@ -17,6 +18,7 @@ Vue.prototype.$echarts = echarts
 new Vue({
   router,
   store,
+  i18n,
   render: function (h) {
     return h(App)
   },

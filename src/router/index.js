@@ -103,6 +103,26 @@ export const constantRouterMap = [{
   ]
   },
   {
+    path: '/video',
+    component: Layout,
+    redirect: '/video/hikvision',
+    meta: {
+      title: '',
+      icon: "el-icon-star-off"
+    },
+    children: [{
+      path: 'hikvision',
+      component: () =>
+        import("@/views/video/hikvision"),
+      name: 'hikvision',
+      meta: {
+        title: '海康视频',
+        icon: 'hikvision'
+      }
+    },
+  ]
+  },
+  {
     path: '/manage',
     component: Layout,
     redirect: '/manage/user',

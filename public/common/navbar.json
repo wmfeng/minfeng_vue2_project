@@ -87,6 +87,116 @@
             "label": null,
             "rid": 0,
             "readerCount": 0
+        },
+        {
+            "id": 4,
+            "uri": "/video",
+            "pName": "视频开发",
+            "pIcon": "el-icon-video-camera",
+            "parentId": 0,
+            "permission": null,
+            "children": [
+                {
+                    "id": 41,
+                    "uri": "hikvision",
+                    "pName": "海康视频",
+                    "pIcon": null,
+                    "parentId": 3,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                }
+            ],
+            "label": null,
+            "rid": 0,
+            "readerCount": 0
+        },
+        {
+            "id": 4,
+            "uri": "/manage",
+            "pName": "系统管理",
+            "pIcon": null,
+            "parentId": 0,
+            "permission": null,
+            "children": [
+                {
+                    "id": 41,
+                    "uri": "user",
+                    "pName": "用户管理",
+                    "pIcon": null,
+                    "parentId": 2,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 42,
+                    "uri": "role",
+                    "pName": "角色管理",
+                    "pIcon": null,
+                    "parentId": 2,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 43,
+                    "uri": "source",
+                    "pName": "资源管理",
+                    "pIcon": null,
+                    "parentId": 2,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 44,
+                    "uri": "dict",
+                    "pName": "字典管理",
+                    "pIcon": null,
+                    "parentId": 2,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 45,
+                    "uri": "administrative",
+                    "pName": "行政区划",
+                    "pIcon": null,
+                    "parentId": 2,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                },
+                {
+                    "id": 46,
+                    "uri": "department",
+                    "pName": "部门管理",
+                    "pIcon": null,
+                    "parentId": 2,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                }
+            ],
+            "label": null,
+            "rid": 0,
+            "readerCount": 0
         }
     ],
     "success": true

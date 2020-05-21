@@ -2,15 +2,15 @@
   <div class="headDrop">
     <el-dropdown>
       <span class="el-dropdown-link">
-        欢迎您, {{username}}
+        {{$t("headDrop.welcome")}}, {{username}}
         <i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown" v-if="!token">
-        <el-dropdown-item @click.native="btn_login">登录</el-dropdown-item>
+        <el-dropdown-item @click.native="btn_login">{{$t("headDrop.login")}}</el-dropdown-item>
       </el-dropdown-menu>
       <el-dropdown-menu slot="dropdown" v-else>
-        <el-dropdown-item @click.native="btn_modify">修改密码</el-dropdown-item>
-        <el-dropdown-item @click.native="btn_out">退出</el-dropdown-item>
+        <el-dropdown-item @click.native="btn_modify">{{$t("headDrop.changepassword")}}</el-dropdown-item>
+        <el-dropdown-item @click.native="btn_out">{{$t("headDrop.dropout")}}</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <el-dialog title="修改密码" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
@@ -100,6 +100,7 @@ export default {
       this.$store.dispatch("LogOut");
     }
   },
+
   mounted() {
     this.username = this.$store.getters.nickname;
   }
