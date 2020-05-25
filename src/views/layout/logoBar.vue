@@ -1,11 +1,6 @@
 <template>
   <div class="logoBar">
-    <div class="logo">
-      <el-radio-group v-model="lang" size="small">
-        <el-radio label="zh" border>简体中文</el-radio>
-        <el-radio label="en" border>English</el-radio>
-      </el-radio-group>
-    </div>
+    <div class="logo"></div>
     <headDrop class="drop"></headDrop>
   </div>
 </template>
@@ -22,17 +17,6 @@ export default {
     return {
       baseUrl: process.env.VUE_APP_BASE_URL
     };
-  },
-  computed: {
-    lang: {
-      get() {
-        return this.$store.state.app.language;
-      },
-      set(lang) {
-        this.$i18n.locale = lang;
-        this.$store.dispatch("setLanguage", lang);
-      }
-    }
   },
   methods: {}
 };

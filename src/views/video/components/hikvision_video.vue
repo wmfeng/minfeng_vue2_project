@@ -32,13 +32,16 @@
 //声明公用变量
 var initCount = 0;
 var pubKey = "";
+var oWebControl = null;
 export default {
   name: "hikvision_video",
   props: {},
   components: {},
   watch: {},
   data() {
-    return {};
+    return {
+      
+    };
   },
   methods: {
     // 创建播放实例

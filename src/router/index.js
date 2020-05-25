@@ -77,8 +77,9 @@ export const constantRouterMap = [{
     component: Layout,
     redirect: '/print/print',
     meta: {
-      title: '',
-      icon: "el-icon-star-off"
+      title: '打印功能',
+      icon: "el-icon-star-off",
+      rid: ""
     },
     children: [{
       path: 'lodopprint',
@@ -87,7 +88,8 @@ export const constantRouterMap = [{
       name: 'lodopprint',
       meta: {
         title: 'Lodop打印',
-        icon: 'lodopprint'
+        icon: '',
+        rid: "-1"
       }
     },
     {
@@ -97,9 +99,10 @@ export const constantRouterMap = [{
       name: 'browserprint',
       meta: {
         title: 'Browser打印',
-        icon: 'browserprint'
+        icon: '',
+        rid: "-1"
       }
-    },
+    }
   ]
   },
   {
@@ -117,7 +120,8 @@ export const constantRouterMap = [{
       name: 'hikvision',
       meta: {
         title: '海康视频',
-        icon: 'hikvision'
+        icon: 'hikvision',
+        rid: "-1"
       }
     },
   ]

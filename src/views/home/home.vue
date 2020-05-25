@@ -46,6 +46,7 @@
       <div class="b con_d">
         <p>我的任务</p>
         <div class="echarts">
+          <ve-ring :data="chartData" :settings="chartSettings" class="echarts"></ve-ring>
         </div>
       </div>
     </div>
@@ -56,7 +57,22 @@ import { EchartsOne, EchartsTwo, EchartsThree } from "@/assets/echarts/home";
 export default {
   components: {},
   data() {
+    this.chartSettings = {
+      dimension: "日期",
+      metrics: "访问用户"
+    };
     return {
+      chartData: {
+        columns: ["日期", "访问用户"],
+        rows: [
+          { 日期: "1/1", 访问用户: 1393 },
+          { 日期: "1/2", 访问用户: 3530 },
+          { 日期: "1/3", 访问用户: 2923 },
+          { 日期: "1/4", 访问用户: 1723 },
+          { 日期: "1/5", 访问用户: 3792 },
+          { 日期: "1/6", 访问用户: 4593 }
+        ]
+      }
     };
   },
   methods: {
@@ -167,6 +183,7 @@ export default {
     }
   },
   mounted() {
+    window.addEventListener("resize", this.resizeTheChart);
     this.echartsOne();
     this.echartsTwo();
     this.echartsThree();

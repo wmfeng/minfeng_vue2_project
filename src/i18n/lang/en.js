@@ -3,6 +3,7 @@ module.exports = {
         login: 'Login',
         changepassword: 'changePassword',
         dropout: "dropOut",
-        welcome: "Welcome"
+        welcome: "Welcome",
+        switchZhOrEn: "Chinese-English switch"
     },
 }
