@@ -24,3 +24,24 @@ export function formatDate(date, fmt) {
 function padLeftZero(str) {
   return ('00' + str).substr(str.length);
 };
+
+// 获取年月日或时分秒 时间戳
+export function getYearTimestamp(timeFormat) {
+  if(timeFormat){//时间格式为 2020-05-27
+    let date = new Date(timeFormat);
+    date = new Date(timeFormat.replace(/-/g, '/'));
+    let time1 = date.getTime();
+    let time2 = date.valueOf();
+    let time3 = Date.parse(date);
+    return time1;
+  }else{
+    let strtime = new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate();
+    let date = new Date(strtime);
+    let time1 = date.getTime();
+    let time2 = date.valueOf();
+    let time3 = Date.parse(date);
+    return time2;
+  }
+}
+
+

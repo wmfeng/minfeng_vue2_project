@@ -13,7 +13,7 @@
 </template>
 <script>
 import nxKanban from "@/components/nx-kanban";
-
+import {formatDate,getYearTimestamp} from "@/utils/data"
 export default {
   name: "dragKanban-demo",
   components: {
@@ -41,6 +41,9 @@ export default {
         { name: "Mission", id: 10 }
       ]
     };
+  },
+  mounted(){
+    console.log(formatDate(getYearTimestamp()),getYearTimestamp(),getYearTimestamp('2020-05-27'));
   }
 };
 </script>
