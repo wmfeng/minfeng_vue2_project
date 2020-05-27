@@ -10,6 +10,8 @@ const Layout = () =>
 
 Vue.use(Router)
 
+
+
 export const constantRouterMap = [{
     path: '/login',
     component: () =>
@@ -206,6 +208,10 @@ export const constantRouterMap = [{
     component:()=>import("@/views/widgets/money")
   }
 ]
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err);
+};
 export default new Router({
   // mode: "history",//浏览模式切换
   scrollBehavior: () => {
