@@ -10,5 +10,6 @@ const getters = {
   keepAliveList: state => state.aliveRouter.keepAliveList,
   visitedList: state => state.aliveRouter.visitedList,
   visitedViews: state => state.tagsView.visitedViews,
+  theme: state => state.changeTheme.theme,
 }
 export default getters

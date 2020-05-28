@@ -1,19 +1,6 @@
 <template>
   <div class="headDrop">
-    <el-dropdown>
-      <span class="el-dropdown-link">
-        {{$t("headDrop.welcome")}}, {{username}}
-        <i class="el-icon-arrow-down el-icon--right"></i>
-      </span>
-      <el-dropdown-menu slot="dropdown" v-if="!token">
-        <el-dropdown-item @click.native="btn_login">{{$t("headDrop.login")}}</el-dropdown-item>
-      </el-dropdown-menu>
-      <el-dropdown-menu slot="dropdown" v-else>
-        <el-dropdown-item @click.native="btn_modify">{{$t("headDrop.changepassword")}}</el-dropdown-item>
-        <el-dropdown-item @click.native="btn_out">{{$t("headDrop.dropout")}}</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-
+    <change-theme></change-theme>
     <el-dropdown
       @command="handleSetLanguage"
       trigger="click"
@@ -28,7 +15,21 @@
         <el-dropdown-item command="en" :disabled="language==='en'">English</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    
+
+    <el-dropdown style="padding-left:10px;cursor: pointer;">
+      <span class="el-dropdown-link">
+        {{$t("headDrop.welcome")}}, {{username}}
+        <i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown" v-if="!token">
+        <el-dropdown-item @click.native="btn_login">{{$t("headDrop.login")}}</el-dropdown-item>
+      </el-dropdown-menu>
+      <el-dropdown-menu slot="dropdown" v-else>
+        <el-dropdown-item @click.native="btn_modify">{{$t("headDrop.changepassword")}}</el-dropdown-item>
+        <el-dropdown-item @click.native="btn_out">{{$t("headDrop.dropout")}}</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+
     <el-dialog title="修改密码" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
       <el-form :model="formData" ref="from" :rules="rules" label-width="80px">
         <el-form-item label="原密码" prop="oldPassWord">
@@ -50,10 +51,12 @@
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
 import { validPassword } from "@/utils/validate";
+import changeTheme from "@/components/change_theme/change_theme";
 import loginModal from "@/views/layout/login_modal";
 export default {
   name: "headDrop",
   components: {
+    changeTheme,
     loginModal
   },
   data() {

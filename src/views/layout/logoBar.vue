@@ -25,7 +25,7 @@ export default {
 @import "../../assets/style/variable.scss";
 .logoBar {
   height: $logoHeight;
-  background-color: #4497d1;
+  background-color: $color;
   .logo {
     float: left;
     width: 50%;
