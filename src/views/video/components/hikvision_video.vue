@@ -39,13 +39,12 @@ export default {
   components: {},
   watch: {},
   data() {
-    return {
-      
-    };
+    return {};
   },
   methods: {
     // 创建播放实例
     initPlugin() {
+      let _this = this;
       oWebControl = new WebControl({
         szPluginContainer: "playWnd", // 指定容器id
         iServicePortStart: 15900, // 指定起止端口号，建议使用该值
@@ -63,12 +62,12 @@ export default {
                 // 启动插件服务成功
                 oWebControl.JS_SetWindowControlCallback({
                   // 设置消息回调
-                  cbIntegrationCallBack: cbIntegrationCallBack
+                  // cbIntegrationCallBack: cbIntegrationCallBack
                 });
 
                 oWebControl.JS_CreateWnd("playWnd", 1000, 600).then(function() {
                   //JS_CreateWnd创建视频播放窗口，宽高可设定
-                  init(); // 创建播放实例成功后初始化
+                  _this.init(); // 创建播放实例成功后初始化
                 });
               },
               function() {
@@ -101,7 +100,7 @@ export default {
     // 设置窗口控制回调
     setCallbacks() {
       oWebControl.JS_SetWindowControlCallback({
-        cbIntegrationCallBack: cbIntegrationCallBack
+        // cbIntegrationCallBack: cbIntegrationCallBack
       });
     },
     // 推送消息
@@ -129,10 +128,11 @@ export default {
     },
     //初始化
     init() {
-      this.getPubKey(function() {
+      let _this = this;
+      _this.getPubKey(function() {
         ////////////////////////////////// 请自行修改以下变量值	////////////////////////////////////
         var appkey = "28730366"; //综合安防管理平台提供的appkey，必填
-        var secret = setEncrypt("HSZkCJpSJ7gSUYrO6wVi"); //综合安防管理平台提供的secret，必填
+        var secret = _this.setEncrypt("HSZkCJpSJ7gSUYrO6wVi"); //综合安防管理平台提供的secret，必填
         var ip = "10.19.132.75"; //综合安防管理平台IP地址，必填
         var playMode = 0; //初始播放模式：0-预览，1-回放
         var port = 443; //综合安防管理平台端口，若启用HTTPS协议，默认443
@@ -187,6 +187,12 @@ export default {
             callback();
           }
         });
+    },
+    //RSA加密
+    setEncrypt(value) {
+      var encrypt = new JSEncrypt();
+      encrypt.setPublicKey(pubKey);
+      return encrypt.encrypt(value);
     }
   },
   created() {},

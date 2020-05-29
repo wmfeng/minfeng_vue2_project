@@ -24,7 +24,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label prop>
-              <el-button type="primary">查询</el-button>
+              <el-button @click="search_btn" type="primary">查询</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -47,7 +47,7 @@ export default {
   name: "hikvision",
   props: {},
   components: {
-    hikvisionVideo
+    hikvisionVideo,
   },
   watch: {},
   data() {
@@ -101,7 +101,15 @@ export default {
       }
     };
   },
-  methods: {},
+  methods: {
+    search_btn(){
+      this.$notify({
+        title: '失败',
+        message: '停止预览窗口失败',
+        type: 'error'
+      });
+    }
+  },
   created() {},
   mounted() {}
 };

@@ -18,10 +18,10 @@ export default {
       pubKey: "", //公钥加密
       playMode: "",
       video_init_data: {
-        appkey: "你的appkey",
-        appSecret: "你的appSecret",
-        ip: "IP地址",
-        port: "端口号",
+        appkey: "28730366",
+        appSecret: "HSZkCJpSJ7gSUYrO6wVi",
+        ip: "10.19.132.75",
+        port: "443",
         snapDir: "D:\\SnapDir",
         videoDir: "D:\\VideoDir",
         layout: ""
