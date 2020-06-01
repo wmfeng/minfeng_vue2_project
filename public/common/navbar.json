@@ -114,6 +114,31 @@
             "readerCount": 0
         },
         {
+            "id": 5,
+            "uri": "/edit",
+            "pName": "富文本编辑",
+            "pIcon": "el-icon-edit",
+            "parentId": 0,
+            "permission": null,
+            "children": [
+                {
+                    "id": 51,
+                    "uri": "edit",
+                    "pName": "富文本编辑",
+                    "pIcon": null,
+                    "parentId": 3,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                }
+            ],
+            "label": null,
+            "rid": 0,
+            "readerCount": 0
+        },
+        {
             "id": 4,
             "uri": "/manage",
             "pName": "系统管理",

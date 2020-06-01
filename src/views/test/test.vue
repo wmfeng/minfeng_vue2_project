@@ -43,6 +43,14 @@ export default {
     };
   },
   mounted(){
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = document.body.clientWidth
+        window.screenHeight = document.body.clientHeight
+        console.log(1,window.screenWidth)
+        console.log(2,window.screenHeight)
+      })()
+    }
     console.log(formatDate(getYearTimestamp()),getYearTimestamp(),getYearTimestamp('2020-05-27'));
   }
 };

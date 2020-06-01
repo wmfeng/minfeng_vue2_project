@@ -129,6 +129,27 @@ export const constantRouterMap = [{
   ]
   },
   {
+    path: '/edit',
+    component: Layout,
+    redirect: '/edit/edit',
+    meta: {
+      title: '',
+      icon: "el-icon-edit"
+    },
+    children: [{
+      path: 'edit',
+      component: () =>
+        import("@/views/edit/edit"),
+      name: 'edit',
+      meta: {
+        title: '富文本编辑',
+        icon: 'edit',
+        rid: "-1"
+      }
+    },
+  ]
+  },
+  {
     path: '/manage',
     component: Layout,
     redirect: '/manage/user',
@@ -214,6 +235,7 @@ Router.prototype.push = function push(location) {
 };
 export default new Router({
   // mode: "history",//浏览模式切换
+  // base: "/map",//应用的基路径 http://10.1.193.200:8080/map/home/home
   scrollBehavior: () => {
     document.getElementsByClassName("el-scrollbar__wrap")[0] ? document.getElementsByClassName("el-scrollbar__wrap")[0].scrollTop = 0 : '';
     return {
