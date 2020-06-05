@@ -33,7 +33,7 @@ export const constantRouterMap = [{
   {
     path: '/',
     component: Layout,
-    redirect: '/home',
+    redirect: '/weatherservice',
     hidden: true
   },
   {
@@ -144,6 +144,27 @@ export const constantRouterMap = [{
       meta: {
         title: '富文本编辑',
         icon: 'edit',
+        rid: "-1"
+      }
+    },
+  ]
+  },
+  {
+    path: '/weatherservice',
+    component: Layout,
+    redirect: '/weatherservice/weatherservice',
+    meta: {
+      title: '',
+      icon: "el-icon-receiving"
+    },
+    children: [{
+      path: 'weatherservice',
+      component: () =>
+        import("@/views/weatherservice/weatherservice"),
+      name: 'weatherservice',
+      meta: {
+        title: '气象服务',
+        icon: 'weatherservice',
         rid: "-1"
       }
     },

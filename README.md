@@ -33,21 +33,21 @@
 
 
 # 二、sessionStorage或localStorage存储方法封装及使用
-1、方法封装地址（src/utils/store.js）
+1、方法封装地址（src/utils/storage.js）
 2、使用方法：
-    (1):引入store.js;
+    (1):storage.js;
     (2):存:
-        setStore({
+        setStorage({
             name: 'lockPasswd',
             content: content,
             type: 'session'
         })
     (3):取：
-        lockPasswd: getStore({
+        lockPasswd: getStorage({
             name: 'lockPasswd'
         }) || '',
     (4):删：
-        removeStore({
+        removeStorage({
             name: 'lockPasswd'
         })
     (5):

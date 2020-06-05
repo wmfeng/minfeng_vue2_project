@@ -3,11 +3,11 @@ module.exports = {
         //host:"192.168.1.86",
         proxy: {
             '/api': {
-                target: 'http://106.3.43.154:15202',
+                target: 'https://api.weather.com',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api': '/api',
+                    '^/api': '',
                     '^/api/download': '/api/upload',
                 }
             }

@@ -139,6 +139,31 @@
             "readerCount": 0
         },
         {
+            "id": 6,
+            "uri": "/weatherservice",
+            "pName": "气象服务",
+            "pIcon": "el-icon-receiving",
+            "parentId": 0,
+            "permission": null,
+            "children": [
+                {
+                    "id": 61,
+                    "uri": "weatherservice",
+                    "pName": "气象服务",
+                    "pIcon": null,
+                    "parentId": 3,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                }
+            ],
+            "label": null,
+            "rid": 0,
+            "readerCount": 0
+        },
+        {
             "id": 4,
             "uri": "/manage",
             "pName": "系统管理",

@@ -9,7 +9,7 @@ const app = {
   state: {
     // 中英文
     language: Cookies.get('language') || 'zh',
-    navOpen: false,
+    navOpen: true,
     path: "",
     title: "",
     icon: "",
