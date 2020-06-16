@@ -60,3 +60,17 @@
 4、新增文件：src/store/modules/tagsView.js
 5、引入文件：src/store/index.js中引入tagsView.js文件并使用
 
+
+# 四、事件总线方法使用（一定要确保事件方法的唯一性，否则会造成方法污染）
+1.在main.js中全局注册：
+    Vue.prototype.$EventBus = new Vue();//全局注册事件总线
+2.A组件中通过事件发送数据
+    this.$EventBus.$emit("EventBusGetYeat",sendVal);// 事件总线发送
+3.B组件中监听从A组件中发送过来的数据
+    // 事件总线监听
+    this.$EventBus.$on("EventBusGetYeat", msg => {
+      if (msg) {
+          <!-- 操作 -->
+      }
+    });
+

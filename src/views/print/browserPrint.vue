@@ -14,7 +14,7 @@
       <el-row>
         <el-col :span="11">
           <el-form-item label="服务品种:">
-            <!-- <el-checkbox-group v-model="fwpzCheckList">
+            <el-checkbox-group v-model="fwpzCheckList">
               <el-checkbox label="水稻"></el-checkbox>
               <el-checkbox label="玉米"></el-checkbox>
               <el-checkbox label="小麦"></el-checkbox>
@@ -27,10 +27,10 @@
               <el-checkbox label="猕猴桃"></el-checkbox>
               <el-checkbox label="葡萄"></el-checkbox>
               <el-checkbox label="红枣"></el-checkbox>
-            </el-checkbox-group>-->
-            <el-checkbox-group v-for="(item,index) in fwpzList" :key="index">
-              <el-checkbox v-for="j in item[index]" :key="j.name" :label="j.name"></el-checkbox>
             </el-checkbox-group>
+            <!-- <el-checkbox-group v-for="(item,index) in fwpzList" :key="index">
+              <el-checkbox v-for="j in item[index]" :key="j.name" :label="j.name"></el-checkbox>
+            </el-checkbox-group> -->
           </el-form-item>
         </el-col>
       </el-row>
@@ -72,47 +72,51 @@ export default {
       fwpzCheckList: [],
       fwpzList: [
         // 粮棉油糖
-        [
-          {
-            label: "1",
-            name: "水稻"
-          },
-          {
-            label: "2",
-            name: "玉米"
-          },
-          {
-            label: "3",
-            name: "大豆"
-          },
-          {
-            label: "4",
-            name: "马铃薯"
-          }
-        ],
+        {
+          0: [
+            {
+              label: "1",
+              name: "水稻"
+            },
+            {
+              label: "2",
+              name: "玉米"
+            },
+            {
+              label: "3",
+              name: "大豆"
+            },
+            {
+              label: "4",
+              name: "马铃薯"
+            }
+          ]
+        },
         // 果树茶叶
-        [
-          {
-            label: "1",
-            name: "柑橘"
-          },
-          {
-            label: "2",
-            name: "苹果"
-          },
-          {
-            label: "3",
-            name: "猕猴桃"
-          },
-          {
-            label: "4",
-            name: "葡萄"
-          },
-          {
-            label: "5",
-            name: "红枣"
-          }
-        ]
+        {
+          0: [
+            {
+              label: "1",
+              name: "柑橘"
+            },
+            {
+              label: "2",
+              name: "苹果"
+            },
+            {
+              label: "3",
+              name: "猕猴桃"
+            },
+            {
+              label: "4",
+              name: "葡萄"
+            },
+            {
+              label: "5",
+              name: "红枣"
+            }
+          ]
+        }
       ],
       fwpzCheckList2: [],
       formInline: {}
