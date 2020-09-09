@@ -33,7 +33,7 @@ export const constantRouterMap = [{
   {
     path: '/',
     component: Layout,
-    redirect: '/weatherservice',
+    redirect: '/home',
     hidden: true
   },
   {

@@ -59,7 +59,7 @@ export default {
   data() {
     this.chartSettings = {
       dimension: "日期",
-      metrics: "访问用户"
+      metrics: "访问用户",
     };
     return {
       chartData: {
@@ -70,9 +70,9 @@ export default {
           { 日期: "1/3", 访问用户: 2923 },
           { 日期: "1/4", 访问用户: 1723 },
           { 日期: "1/5", 访问用户: 3792 },
-          { 日期: "1/6", 访问用户: 4593 }
-        ]
-      }
+          { 日期: "1/6", 访问用户: 4593 },
+        ],
+      },
     };
   },
   methods: {
@@ -91,7 +91,7 @@ export default {
         "9月",
         "10月",
         "11月",
-        "12月"
+        "12月",
       ];
       let sData = [42, 40, 59, 48, 42, 63, 65, 58, 58, 62, 63, 65];
       echartsOne.setOption(EchartsOne(xData, sData));
@@ -103,28 +103,28 @@ export default {
       let sData = [
         {
           value: 10,
-          name: "IDS"
+          name: "IDS",
         },
         {
           value: 5,
-          name: "VPN"
+          name: "VPN",
         },
         {
           value: 15,
-          name: "交换机"
+          name: "交换机",
         },
         {
           value: 25,
-          name: "防火墙"
+          name: "防火墙",
         },
         {
           value: 20,
-          name: "WAF"
+          name: "WAF",
         },
         {
           value: 35,
-          name: "堡垒机"
-        }
+          name: "堡垒机",
+        },
       ];
       echartsTwo.setOption(EchartsTwo(lData, sData));
     },
@@ -139,34 +139,34 @@ export default {
         "2016",
         "2017",
         "2018",
-        "2019"
+        "2019",
       ];
       let sData1 = [400, 400, 300, 300, 300, 400, 400, 400, 300];
       let sData2 = [400, 500, 500, 500, 500, 400, 400, 500, 500];
       let sData3 = [400, 600, 700, 700, 1000, 400, 400, 600, 700];
       echartsThree.setOption(EchartsThree(xData, sData1, sData2, sData3));
       let app = { currentIndex: -1 };
-      setInterval(function() {
+      setInterval(function () {
         //定时器
         let dataLen = echartsThree._model.option.series[0].data.length;
         // 取消之前高亮的图形
         echartsThree.dispatchAction({
           type: "downplay",
           seriesIndex: 0,
-          dataIndex: app.currentIndex
+          dataIndex: app.currentIndex,
         });
         app.currentIndex = (app.currentIndex + 1) % dataLen;
         // 高亮当前图形
         echartsThree.dispatchAction({
           type: "highlight",
           seriesIndex: 0,
-          dataIndex: app.currentIndex
+          dataIndex: app.currentIndex,
         });
         // 显示 tooltip
         echartsThree.dispatchAction({
           type: "showTip",
           seriesIndex: 0,
-          dataIndex: app.currentIndex
+          dataIndex: app.currentIndex,
         });
       }, 1000);
     },
@@ -175,20 +175,32 @@ export default {
       let echartsOne = this.$echarts.init(this.$refs.echartsOne);
       let echartsTwo = this.$echarts.init(this.$refs.echartsTwo);
       let echartsThree = this.$echarts.init(this.$refs.echartsThree);
-      window.addEventListener("resize", function() {
+      window.addEventListener("resize", function () {
         echartsOne.resize();
         echartsTwo.resize();
         echartsThree.resize();
       });
+    },
+
+     directions(...args) {
+      var [start, ...remaining] = args;
+      var [finish, ...stops] = remaining.reverse();
+      console.log('args',`${args}`);
+      console.log('start',`${start}`);
+      console.log('finish',`${finish}`);
+      console.log('stops',`${stops}`);
     }
+
   },
   mounted() {
+    this.directions('1','2','3','4');
+
     window.addEventListener("resize", this.resizeTheChart);
     this.echartsOne();
     this.echartsTwo();
     this.echartsThree();
     this.intEcharts();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

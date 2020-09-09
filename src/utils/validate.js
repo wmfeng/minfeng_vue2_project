@@ -375,14 +375,14 @@ let validateObj = {
   },
   isNumberFloat: (rule, value, callback) => {
     //let reg = /^([1-9]\d{0,8}|0)(\.\d{2})$/
-    let reg = /(^[1-9](\d+)?(\.\d{1,2})?$)|(^0$)|(^\d\.\d{1,2}$)/
+    let reg = /(^[1-9](\d+)?(\.\d{2})?$)|(^0$)|(^\d\.\d{1,2}$)/
     if (!value) {
       callback();
     }
     else if (reg.test(value)) {
       callback();
     } else {
-      callback(new Error('请输入合法数字并且保留两位小数'));
+      callback(new Error('请输入合法数字或保留两位小数'));
     }
   },
   isEmail: (rule, value, callback) => {

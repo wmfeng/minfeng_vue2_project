@@ -13,7 +13,7 @@
 </template>
 <script>
 import nxKanban from "@/components/nx-kanban";
-import {formatDate,getYearTimestamp} from "@/utils/data"
+import { formatDate, getYearTimestamp } from "@/utils/data";
 export default {
   name: "dragKanban-demo",
   components: {
@@ -42,16 +42,97 @@ export default {
       ]
     };
   },
-  mounted(){
-    window.onresize = () => {
-      return (() => {
-        window.screenWidth = document.body.clientWidth
-        window.screenHeight = document.body.clientHeight
-        console.log(1,window.screenWidth)
-        console.log(2,window.screenHeight)
-      })()
+  methods: {
+    delUrlParams(url, name) {
+      //根据#号拆分
+      let poundArr = url.split("#");
+      //？拆分
+      let questionArr = [];
+      if (poundArr) {
+        //把#接上
+        poundArr.forEach((element, index) => {
+          if (index > 0) {
+            element = "#" + element;
+          }
+
+          let tempArr = element.split("?");
+          if (!tempArr) {
+            return true;
+          }
+          tempArr.forEach((item, idx) => {
+            //保留问号
+            if (idx > 0) {
+              item = "?" + item;
+            }
+            questionArr.push(item);
+          });
+        });
+      } else {
+        questionArr = url.split("?");
+        if (questionArr) {
+          questionArr.forEach((item, idx) => {
+            if (idx > 0) {
+              item = "?" + item;
+            }
+          });
+        }
+      }
+
+      if (!questionArr) {
+        return url;
+      }
+
+      //&符号的处理
+      let andArr = [];
+      questionArr.forEach((item, index) => {
+        let andIdx = item.indexOf("&");
+        if (andIdx <= -1) {
+          andArr.push(item);
+          return true;
+        }
+
+        let tempAndArr = item.split("&");
+        tempAndArr.forEach((ele, idx) => {
+          if (idx > 0) {
+            ele = "&" + ele;
+          }
+          andArr.push(ele);
+        });
+      });
+      let newUrl = "";
+      andArr.forEach(item => {
+        let nameIndex = item.indexOf(name + "=");
+        //不拼接要删除的参数
+        if (nameIndex > -1) {
+          //保留第一个问号
+          let questionIdx = item.indexOf("?");
+          if (questionIdx == 0) {
+            newUrl += "";
+          }
+          return true;
+        }
+        newUrl += item;
+      });
+
+      return newUrl.replace(/\?\&/g, "?");
     }
-    console.log(formatDate(getYearTimestamp()),getYearTimestamp(),getYearTimestamp('2020-05-27'));
+  },
+  mounted() {
+    console.log(11111,this.delUrlParams("http://10.1.193.200:5002/?code=3425211#/project/1/vizs","code"))
+
+    // window.onresize = () => {
+    //   return (() => {
+    //     window.screenWidth = document.body.clientWidth;
+    //     window.screenHeight = document.body.clientHeight;
+    //     console.log(1, window.screenWidth);
+    //     console.log(2, window.screenHeight);
+    //   })();
+    // };
+    // console.log(
+    //   formatDate(getYearTimestamp()),
+    //   getYearTimestamp(),
+    //   getYearTimestamp("2020-05-27")
+    // );
   }
 };
 </script>

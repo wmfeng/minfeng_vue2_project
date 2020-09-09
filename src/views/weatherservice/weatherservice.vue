@@ -1,132 +1,225 @@
 <template>
-  <div>气象服务</div>
+  <div>
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="活动名称" prop="name">
+        <el-input v-model="ruleForm.name"></el-input>
+      </el-form-item>
+    </el-form>
+    <el-select
+      @change="chagneSelsect"
+      @visible-change="visibleChangeSelect"
+      v-model="selectValue"
+      disabled
+      placeholder="请选择"
+    >
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+    </el-select>
+
+    <div class="custom-tree-container">
+      <div class="block">
+        <p>使用 scoped slot</p>
+        <el-tree :data="data" node-key="id" default-expand-all>
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <span>{{ data.label }}</span>
+            <span>
+              <el-button type="text" size="mini" @click="() => append(data)">Append</el-button>
+              <el-button type="text" size="mini" @click="() => remove(node, data)">Delete</el-button>
+            </span>
+          </span>
+        </el-tree>
+      </div>
+    </div>
+    <el-date-picker v-model="yearMonth" type="month" placeholder="选择月"></el-date-picker>
+    <el-date-picker
+      @change="handleChangeZhou"
+      v-model="zhou"
+      type="week"
+      format="yyyy 第 WW 周"
+      placeholder="选择周"
+    ></el-date-picker>
+  </div>
 </template>
 
 <script>
-import { getFrost } from "@/api/weather";
+let id = 1000;
+import { validateObj } from "@/utils/validate";
+import {
+  getYearDate,
+  getYearWeek,
+  formatDate,
+} from "@/utils/data";
 export default {
-  name: "XXX",
-  props: {},
-  components: {},
-  watch: {},
   data() {
-    return {};
+    return {
+      // data: JSON.parse(JSON.stringify(data)),
+      // data: JSON.parse(JSON.stringify(data)),
+      data: [
+        {
+          id: 1,
+          label: "一级 1",
+          children: [
+            {
+              id: 4,
+              label: "二级 1-1",
+              children: [
+                {
+                  id: 9,
+                  label: "三级 1-1-1",
+                },
+                {
+                  id: 10,
+                  label: "三级 1-1-2",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 2,
+          label: "一级 2",
+          children: [
+            {
+              id: 5,
+              label: "二级 2-1",
+            },
+            {
+              id: 6,
+              label: "二级 2-2",
+            },
+          ],
+        },
+        {
+          id: 3,
+          label: "一级 3",
+          children: [
+            {
+              id: 7,
+              label: "二级 3-1",
+            },
+            {
+              id: 8,
+              label: "二级 3-2",
+            },
+          ],
+        },
+      ],
+      ruleForm: {
+        name: "",
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            validator: validateObj.isNumberFloat,
+            trigger: "change",
+          },
+        ],
+      },
+      options: [
+        {
+          value: "选项1",
+          label: "黄金糕",
+        },
+        {
+          value: "选项2",
+          label: "双皮奶",
+        },
+        {
+          value: "选项3",
+          label: "蚵仔煎",
+        },
+        {
+          value: "选项4",
+          label: "龙须面",
+        },
+        {
+          value: "选项5",
+          label: "北京烤鸭",
+        },
+      ],
+      selectValue: "",
+      yearMonth: "",
+      zhou: getYearDate(),
+      changeZhou:""
+    };
   },
   methods: {
-    /* 农业气象 start*/
+    append(data) {
+      const newChild = { id: id++, label: "testtest", children: [] };
+      if (!data.children) {
+        this.$set(data, "children", []);
+      }
+      data.children.push(newChild);
+    },
 
-    // Degree Days Index - Daily - 15 Day（生长度日，热度日冷度日，积温）
-    agriculturalMeteorology() {
-      let url =
-        "/v2/indices/degreeDays/daily/15day?geocode=34.350846,108.952789&language=zh-CN&format=json&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("生长度日，热度日冷度日，积温", res);
-      });
+    remove(node, data) {
+      const parent = node.parent;
+      const children = parent.data.children || parent.data;
+      const index = children.findIndex((d) => d.id === data.id);
+      children.splice(index, 1);
     },
-    // Frost Potential Index - Daypart - 15 Day（霜冻指数）
-    frostindex() {
-      let url =
-        "/v2/indices/frost/daypart/15day?geocode=34.350846,108.952789&language=zh-CN&format=json&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("霜冻指数", res);
-      });
-    },
-    // Watering Needs Index - Daypart - 10 Day（需水量指数，灌溉需求）
-    irrigationdemand() {
-      let url =
-        "/v2/indices/wateringNeeds/daypart/10day?geocode=34.350846,108.952789&language=zh-CN&format=json&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("需水量指数，灌溉需求", res);
-      });
-    },
-    // Location Services – Point（位置服务-点）
-    locationServicePoint() {
-      let url =
-        "/v3/location/search?query=atlanta&locationType=locid&language=zh-CN&format=json&apiKey=715688a3fb624aec9688a3fb624aecce";
-      let url2 =
-        "/v3/location/search?query=Lincoln Memorial Circle SW&locationType=address&language=zh-CN&format=json&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("位置服务-点", res);
-      });
-    },
-    // Location Services - Search（位置服务-查询）
-    locationServicesInquiries() {
-      let url =
-        "/v3/location/search?query=atlanta&locationType=locid&language=zh-CN&format=json&apiKey=715688a3fb624aec9688a3fb624aecce";
-      let url2 =
-        "/v3/location/search?query=Lincoln Memorial Circle SW&locationType=address&language=zh-CN&format=json&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url2).then(res => {
-        console.log("位置服务-点", res);
-      });
-    },
-    // Location Services - Near（位置服务-附近）
-    locationServicesNearby() {
-      let url =
-        "/v3/location/near?geocode=34.350846,108.952789&product=observation&format=json&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("位置服务-附近", res);
-      });
-    },
-    // Agriculture - Croptype Lookup15天作物种类，103作物   (接口报400)
-    cropType() {
-      let url =
-        "/v3/wx/forecast/hourly/agriculture/15day?geocode=34.350846,108.952789&format=json&units=e&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("作物种类，103作物", res);
-      });
-    },
-    // 15-Day Solar Energy - Hourly Forecast太阳辐照度
-    solarIrradiance() {
-      let url =
-        "/v3/wx/forecast/hourly/energysolar/15day?geocode=34.350846,108.952789&format=json&units=e&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("太阳辐照度", res);
-      });
-    },
-    // 7-Day Solar Energy - 15 Minute Forecast
-    minuteForecast() {
-      let url =
-        "/v3/wx/forecast/15minute/energysolar/7day?geocode=34.350846,108.952789&format=json&units=e&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("Minute Forecast", res);
-      });
-    },
-    /* 农业气象 end*/
 
-    /*核心气象数据 start*/
-
-    // Alert Headlines 政府发布的告警标题和所要求语⾔的详细信息
-    languageDetail() {
-      let url =
-        "/v3/alerts/headlines?countryCode=US&format=json&language=zh-CN&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("政府发布的告警标题和所要求语⾔的详细信息", res);
+    renderContent(h, { node, data, store }) {
+      return (
+        <span class="custom-tree-node">
+          <span>{node.label}</span>
+          <span>
+            <el-button
+              size="mini"
+              type="text"
+              on-click={() => this.append(data)}
+            >
+              Append
+            </el-button>
+            <el-button
+              size="mini"
+              type="text"
+              on-click={() => this.remove(node, data)}
+            >
+              Delete
+            </el-button>
+          </span>
+        </span>
+      );
+    },
+    chagneSelsect(val) {
+      debugger;
+    },
+    visibleChangeSelect(val) {
+      debugger;
+      if (val) {
+        return false;
+      }
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
       });
     },
-    // Alert Details所要求语⾔的详细信息
-    alllanguageDetail() {
-      let url =
-        "/v3/alerts/detail?alertId=c092289d-1282-318a-b0c6-ab4c95ee3c57&format=json&language=en-US&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("所要求语⾔的详细信息", res);
-      });
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     },
-    // Daily Forecast (3 Day, 5 Day, 7 Day, 10 Day)（预测）
-    prediction() {
-      let url =
-        "/v3/wx/forecast/daily/7day?geocode=34.350846,108.952789&format=json&units=e&language=zh-CN&apiKey=715688a3fb624aec9688a3fb624aecce";
-      getFrost(url).then(res => {
-        console.log("预测", res);
-      });
-    }
-    /*核心气象数据 end*/
+    handleChangeZhou(val) {
+      this.changeZhou = getYearWeek(formatDate(val));
+    },
   },
-  created() {},
   mounted() {
-    // this.agriculturalMeteorology();
-  }
+    this.yearMonth = getYearDate();
+    // this.zhou = getYearWeek();
+    console.log(1111, getYearDate());
+    console.log(222, getYearWeek());
+    // console.log(getMonthWeek(getYearDate()));
+  },
 };
 </script>
-
-<style scoped lang='scss'>
-</style>
