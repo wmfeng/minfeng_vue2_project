@@ -56,6 +56,25 @@ export const constantRouterMap = [{
     }]
   },
   {
+    path: '/mapgodown',
+    component: Layout,
+    // redirect: '/home/home',
+    meta: {
+      title: '',
+      icon: "el-icon-star-off"
+    },
+    children: [{
+      path: 'mapgodown',
+      component: () =>
+        import("@/views/echarts/mapGodown"),
+      name: 'mapgodown',
+      meta: {
+        title: '地图下钻',
+        icon: 'mapgodown'
+      }
+    }]
+  },
+  {
     path: '/test',
     component: Layout,
     redirect: '/test/test',

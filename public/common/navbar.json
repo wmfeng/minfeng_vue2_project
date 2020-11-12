@@ -27,6 +27,31 @@
             "readerCount": 0
         },
         {
+            "id": 56146,
+            "uri": "/mapgodown",
+            "pName": "地图下钻",
+            "pIcon": "el-icon-s-home",
+            "parentId": 0,
+            "permission": null,
+            "children": [
+                {
+                    "id": 11,
+                    "uri": "mapgodown",
+                    "pName": "地图下钻",
+                    "pIcon": null,
+                    "parentId": 1,
+                    "permission": null,
+                    "children": [],
+                    "label": null,
+                    "rid": 0,
+                    "readerCount": 0
+                }
+            ],
+            "label": null,
+            "rid": 0,
+            "readerCount": 0
+        },
+        {
             "id": 2,
             "uri": "/test",
             "pName": "技能实践",

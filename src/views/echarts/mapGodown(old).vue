@@ -360,23 +360,15 @@ export default {
         let _self = this;
         if (opt.goDown && params.name !== name[idx]) {
           if (cityMap[params.name]) {
-            // let url = cityMap[params.name];
-            // request(url, "get").then(res => {
-            //   curGeoJson.UTF8Encoding = res.config.UTF8Encoding;
-            //   curGeoJson.features = res.config.features;
-            //   curGeoJson.properties = res.config.properties;
-            //   curGeoJson.type = res.config.type;
-            //   _this.$echarts.registerMap(params.name, curGeoJson);
-            //   _this.resetOption(_self, option, params.name);
-            // });
-
-            let res = cityMap[params.name];
-            curGeoJson.UTF8Encoding = res.UTF8Encoding;
-            curGeoJson.features = res.features;
-            curGeoJson.properties = res.properties;
-            curGeoJson.type = res.type;
-            _this.$echarts.registerMap(params.name, curGeoJson);
-            _this.resetOption(_self, option, params.name);
+            let url = cityMap[params.name];
+            request(url, "get").then((res) => {
+              curGeoJson.UTF8Encoding = res.config.UTF8Encoding;
+              curGeoJson.features = res.config.features;
+              curGeoJson.properties = res.config.properties;
+              curGeoJson.type = res.config.type;
+              _this.$echarts.registerMap(params.name, curGeoJson);
+              _this.resetOption(_self, option, params.name);
+            });
           }
         }
       });
