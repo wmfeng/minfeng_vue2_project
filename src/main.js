@@ -11,7 +11,7 @@ import VCharts from 'v-charts'
 import i18n from "./i18n"
 import './plugins/element.js'
 import "@/directive"
-import './router/permission'
+// import './router/permission'
 import '@/components'
 
 
