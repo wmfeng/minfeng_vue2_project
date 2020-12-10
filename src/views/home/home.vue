@@ -45,7 +45,9 @@
       </div>
       <div class="b con_d">
         <p>我的任务</p>
-        <div class="echarts"></div>
+        <div class="echarts">
+          <ve-ring :data="chartData" :settings="chartSettings" class="echarts"></ve-ring>
+        </div>
       </div>
     </div>
   </div>
@@ -53,10 +55,25 @@
 <script>
 import { EchartsOne, EchartsTwo, EchartsThree } from "@/assets/echarts/home";
 export default {
-  components: {
-  },
+  components: {},
   data() {
-    return {};
+    this.chartSettings = {
+      dimension: "日期",
+      metrics: "访问用户",
+    };
+    return {
+      chartData: {
+        columns: ["日期", "访问用户"],
+        rows: [
+          { 日期: "1/1", 访问用户: 1393 },
+          { 日期: "1/2", 访问用户: 3530 },
+          { 日期: "1/3", 访问用户: 2923 },
+          { 日期: "1/4", 访问用户: 1723 },
+          { 日期: "1/5", 访问用户: 3792 },
+          { 日期: "1/6", 访问用户: 4593 },
+        ],
+      },
+    };
   },
   methods: {
     // 供应项目统计
@@ -74,7 +91,7 @@ export default {
         "9月",
         "10月",
         "11月",
-        "12月"
+        "12月",
       ];
       let sData = [42, 40, 59, 48, 42, 63, 65, 58, 58, 62, 63, 65];
       echartsOne.setOption(EchartsOne(xData, sData));
@@ -86,60 +103,70 @@ export default {
       let sData = [
         {
           value: 10,
-          name: "IDS"
+          name: "IDS",
         },
         {
           value: 5,
-          name: "VPN"
+          name: "VPN",
         },
         {
           value: 15,
-          name: "交换机"
+          name: "交换机",
         },
         {
           value: 25,
-          name: "防火墙"
+          name: "防火墙",
         },
         {
           value: 20,
-          name: "WAF"
+          name: "WAF",
         },
         {
           value: 35,
-          name: "堡垒机"
-        }
+          name: "堡垒机",
+        },
       ];
       echartsTwo.setOption(EchartsTwo(lData, sData));
     },
     // 项目进度统计
     echartsThree() {
       let echartsThree = this.$echarts.init(this.$refs.echartsThree);
-      let xData = ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'];
+      let xData = [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+      ];
       let sData1 = [400, 400, 300, 300, 300, 400, 400, 400, 300];
       let sData2 = [400, 500, 500, 500, 500, 400, 400, 500, 500];
       let sData3 = [400, 600, 700, 700, 1000, 400, 400, 600, 700];
-      echartsThree.setOption(EchartsThree(xData,sData1,sData2,sData3));
+      echartsThree.setOption(EchartsThree(xData, sData1, sData2, sData3));
       let app = { currentIndex: -1 };
-      setInterval(function() {//定时器
+      setInterval(function () {
+        //定时器
         let dataLen = echartsThree._model.option.series[0].data.length;
         // 取消之前高亮的图形
         echartsThree.dispatchAction({
           type: "downplay",
           seriesIndex: 0,
-          dataIndex: app.currentIndex
+          dataIndex: app.currentIndex,
         });
         app.currentIndex = (app.currentIndex + 1) % dataLen;
         // 高亮当前图形
         echartsThree.dispatchAction({
           type: "highlight",
           seriesIndex: 0,
-          dataIndex: app.currentIndex
+          dataIndex: app.currentIndex,
         });
         // 显示 tooltip
         echartsThree.dispatchAction({
           type: "showTip",
           seriesIndex: 0,
-          dataIndex: app.currentIndex
+          dataIndex: app.currentIndex,
         });
       }, 1000);
     },
@@ -148,19 +175,32 @@ export default {
       let echartsOne = this.$echarts.init(this.$refs.echartsOne);
       let echartsTwo = this.$echarts.init(this.$refs.echartsTwo);
       let echartsThree = this.$echarts.init(this.$refs.echartsThree);
-      window.addEventListener("resize", function() {
+      window.addEventListener("resize", function () {
         echartsOne.resize();
         echartsTwo.resize();
         echartsThree.resize();
       });
+    },
+
+     directions(...args) {
+      var [start, ...remaining] = args;
+      var [finish, ...stops] = remaining.reverse();
+      console.log('args',`${args}`);
+      console.log('start',`${start}`);
+      console.log('finish',`${finish}`);
+      console.log('stops',`${stops}`);
     }
+
   },
   mounted() {
+    this.directions('1','2','3','4');
+
+    window.addEventListener("resize", this.resizeTheChart);
     this.echartsOne();
     this.echartsTwo();
     this.echartsThree();
     this.intEcharts();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

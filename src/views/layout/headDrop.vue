@@ -1,18 +1,35 @@
 <template>
   <div class="headDrop">
-    <el-dropdown>
+    <change-theme></change-theme>
+    <el-dropdown
+      @command="handleSetLanguage"
+      trigger="click"
+      style="padding-left:10px;cursor: pointer;"
+    >
       <span class="el-dropdown-link">
-        欢迎您, {{username}}
+        {{$t("headDrop.switchZhOrEn")}}
+        <i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="zh" :disabled="language==='zh'">中文</el-dropdown-item>
+        <el-dropdown-item command="en" :disabled="language==='en'">English</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+
+    <el-dropdown style="padding-left:10px;cursor: pointer;">
+      <span class="el-dropdown-link">
+        {{$t("headDrop.welcome")}}, {{username}}
         <i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown" v-if="!token">
-        <el-dropdown-item @click.native="btn_login">登录</el-dropdown-item>
+        <el-dropdown-item @click.native="btn_login">{{$t("headDrop.login")}}</el-dropdown-item>
       </el-dropdown-menu>
       <el-dropdown-menu slot="dropdown" v-else>
-        <el-dropdown-item @click.native="btn_modify">修改密码</el-dropdown-item>
-        <el-dropdown-item @click.native="btn_out">退出</el-dropdown-item>
+        <el-dropdown-item @click.native="btn_modify">{{$t("headDrop.changepassword")}}</el-dropdown-item>
+        <el-dropdown-item @click.native="btn_out">{{$t("headDrop.dropout")}}</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
+
     <el-dialog title="修改密码" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
       <el-form :model="formData" ref="from" :rules="rules" label-width="80px">
         <el-form-item label="原密码" prop="oldPassWord">
@@ -34,10 +51,12 @@
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
 import { validPassword } from "@/utils/validate";
+import changeTheme from "@/components/change_theme/change_theme";
 import loginModal from "@/views/layout/login_modal";
 export default {
   name: "headDrop",
   components: {
+    changeTheme,
     loginModal
   },
   data() {
@@ -75,9 +94,21 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["token"])
+    ...mapGetters(["token"]),
+    language() {
+      return this.$store.state.app.language;
+    }
   },
   methods: {
+    // 中英文切换
+    handleSetLanguage(lang) {
+      this.$i18n.locale = lang;
+      this.$store.dispatch("setLanguage", lang);
+      this.$message({
+        message: "switch language success",
+        type: "success"
+      });
+    },
     handleClose() {
       this.dialogVisible = false;
     },
@@ -100,6 +131,7 @@ export default {
       this.$store.dispatch("LogOut");
     }
   },
+
   mounted() {
     this.username = this.$store.getters.nickname;
   }

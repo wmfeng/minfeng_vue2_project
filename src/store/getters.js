@@ -8,6 +8,8 @@ const getters = {
   navTitle: state => state.app.title,
   navIcon: state => state.app.icon,
   keepAliveList: state => state.aliveRouter.keepAliveList,
-  visitedList: state => state.aliveRouter.visitedList
+  visitedList: state => state.aliveRouter.visitedList,
+  visitedViews: state => state.tagsView.visitedViews,
+  theme: state => state.changeTheme.theme,
 }
 export default getters

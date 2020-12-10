@@ -3,8 +3,9 @@
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="(item,index) in breadList" :key="item.path" v-if="item.meta.title">
         <i class="el-icon-document breadCrumb_icon" v-if="!index"></i>
-        <span v-if="item.redirect==='noredirect'||index==breadList.length-1"  class="no-redirect">{{item.meta.title}}</span>
-        <router-link v-else :to="item.redirect||item.path" tag="span">{{item.label}}</router-link>
+        <span  class="no-redirect">{{item.meta.title}}</span>
+        <!-- <span v-if="item.redirect==='noredirect'||index==breadList.length-1"  class="no-redirect">{{item.meta.title}}</span> -->
+        <!-- <router-link v-else :to="item.redirect||item.path" tag="span">{{item.label}}</router-link> -->
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>

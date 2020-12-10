@@ -1,9 +1,6 @@
 <template>
   <div class="logoBar">
-    <div class="logo">
-      <!-- <i class="el-icon-goods"></i> -->
-      project
-    </div>
+    <div class="logo"></div>
     <headDrop class="drop"></headDrop>
   </div>
 </template>
@@ -11,10 +8,17 @@
 <script>
 import { mapGetters } from "vuex";
 import headDrop from "./headDrop";
+import axios from "axios";
 
 export default {
   name: "logoBar",
-  components: { headDrop }
+  components: { headDrop },
+  data() {
+    return {
+      baseUrl: process.env.VUE_APP_BASE_URL
+    };
+  },
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>

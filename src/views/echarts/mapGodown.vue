@@ -10,24 +10,24 @@ var pos = {
   leftPlus: 12,
   leftCur: 70,
   left: 15,
-  top: 15
+  top: 15,
 };
 var line = [
   [0, 0],
   [8, 11],
-  [0, 22]
+  [0, 22],
 ];
 var idx = 0;
 
 var style = {
   font: '18px "Microsoft YaHei", sans-serif',
   textColor: "#eee",
-  lineColor: "rgba(147, 235, 248, .8)"
+  lineColor: "rgba(147, 235, 248, .8)",
 };
 var curGeoJson = {};
 var cityMap = {
   南昌市: nanchang,
-  景德镇市: jingdezhen
+  景德镇市: jingdezhen,
   // "萍乡市": pingxiang,
   // "九江市": jiujiang,
   // "新余市": xinyu,
@@ -49,12 +49,12 @@ var geoCoordMap = {
   吉安: [115.05, 26.88],
   宜春: [114.41, 28.03],
   抚州: [116.45, 27.79],
-  上饶: [117.92, 28.22]
+  上饶: [117.92, 28.22],
 };
 var levelColorMap = {
-  "1": "rgba(241, 109, 115, .8)",
-  "2": "rgba(255, 235, 59, .7)",
-  "3": "rgba(147, 235, 248, 1)"
+  1: "rgba(241, 109, 115, .8)",
+  2: "rgba(255, 235, 59, .7)",
+  3: "rgba(147, 235, 248, 1)",
 };
 var defaultOpt = {
   mapName: "china", // 地图展示
@@ -63,7 +63,7 @@ var defaultOpt = {
   activeArea: [], // 区域高亮,同echarts配置项
   data: [],
   // 下钻回调(点击的地图名、实例对象option、实例对象)
-  callback: function(name, option, instance) {}
+  callback: function (name, option, instance) {},
 };
 var name = [];
 var opt = {
@@ -71,35 +71,35 @@ var opt = {
   mapName: "江西", // 地图名
   goDown: true, // 是否下钻
   // 下钻回调
-  callback: function(name, option, instance) {},
+  callback: function (name, option, instance) {},
   // 数据展示
   data: [
     {
       name: "南昌",
       value: 10,
-      level: 1
+      level: 1,
     },
     {
       name: "景德镇",
       value: 12,
-      level: 2
+      level: 2,
     },
     {
       name: "萍乡",
       value: 11,
-      level: 3
+      level: 3,
     },
     {
       name: "赣州",
       value: 16,
-      level: 2
+      level: 2,
     },
     {
       name: "吉安",
       value: 12,
-      level: 1
-    }
-  ]
+      level: 1,
+    },
+  ],
 };
 export default {
   name: "mapGodown",
@@ -129,7 +129,7 @@ export default {
           transitionDuration: 0,
           extraCssText: "z-index:100",
           backgroundColor: "transparent",
-          formatter: params => {
+          formatter: (params) => {
             if (params.componentSubType == "map") {
               return;
             } else {
@@ -157,7 +157,7 @@ export default {
             let x = pointX - size.contentSize[0] / 2 - 1;
             let y = pointY - size.contentSize[1] - 20;
             return [x, y];
-          }
+          },
         },
         graphic: [
           {
@@ -173,11 +173,11 @@ export default {
                   x1: 0,
                   y1: 0,
                   x2: 60,
-                  y2: 0
+                  y2: 0,
                 },
                 style: {
-                  stroke: style.lineColor
-                }
+                  stroke: style.lineColor,
+                },
               },
               {
                 type: "line",
@@ -187,13 +187,13 @@ export default {
                   x1: 0,
                   y1: 0,
                   x2: 60,
-                  y2: 0
+                  y2: 0,
                 },
                 style: {
-                  stroke: style.lineColor
-                }
-              }
-            ]
+                  stroke: style.lineColor,
+                },
+              },
+            ],
           },
           {
             id: name[idx],
@@ -206,16 +206,16 @@ export default {
                 left: 90,
                 top: -12,
                 shape: {
-                  points: line
+                  points: line,
                 },
                 style: {
                   stroke: "transparent",
-                  key: name[0]
+                  key: name[0],
                 },
-                onclick: function() {
+                onclick: function () {
                   let name = this.style.key;
                   _this.resetOption(chart, option, name);
-                }
+                },
               },
               {
                 type: "text",
@@ -225,11 +225,11 @@ export default {
                   text: name[0] === "江西" ? "江西省" : name[0],
                   textAlign: "center",
                   fill: style.textColor,
-                  font: style.font
+                  font: style.font,
                 },
-                onclick: function() {
+                onclick: function () {
                   _this.resetOption(chart, option, "江西");
-                }
+                },
               },
               {
                 type: "text",
@@ -239,14 +239,14 @@ export default {
                   text: "JIANGXI",
                   textAlign: "center",
                   fill: style.textColor,
-                  font: '12px "Microsoft YaHei", sans-serif'
+                  font: '12px "Microsoft YaHei", sans-serif',
                 },
-                onclick: function() {
+                onclick: function () {
                   _this.resetOption(chart, option, "江西");
-                }
-              }
-            ]
-          }
+                },
+              },
+            ],
+          },
         ],
         geo: {
           map: opt.mapName,
@@ -256,14 +256,14 @@ export default {
             normal: {
               show: true,
               textStyle: {
-                color: "#fff"
-              }
+                color: "#fff",
+              },
             },
             emphasis: {
               textStyle: {
-                color: "#fff"
-              }
-            }
+                color: "#fff",
+              },
+            },
           },
           itemStyle: {
             normal: {
@@ -277,43 +277,43 @@ export default {
                 colorStops: [
                   {
                     offset: 0,
-                    color: "rgba(147, 235, 248, 0)" // 0% 处的颜色
+                    color: "rgba(147, 235, 248, 0)", // 0% 处的颜色
                   },
                   {
                     offset: 1,
-                    color: "rgba(147, 235, 248, .2)" // 100% 处的颜色
-                  }
+                    color: "rgba(147, 235, 248, .2)", // 100% 处的颜色
+                  },
                 ],
-                globalCoord: false // 缺省为 false
+                globalCoord: false, // 缺省为 false
               },
               shadowColor: "rgba(128, 217, 248, 1)",
               // shadowColor: 'rgba(255, 255, 255, 1)',
               shadowOffsetX: -2,
               shadowOffsetY: 2,
-              shadowBlur: 10
+              shadowBlur: 10,
             },
             emphasis: {
               areaColor: "#389BB7",
-              borderWidth: 0
-            }
+              borderWidth: 0,
+            },
           },
-          regions: opt.activeArea.map(function(item) {
+          regions: opt.activeArea.map(function (item) {
             if (typeof item !== "string") {
               return {
                 name: item.name,
                 itemStyle: {
                   normal: {
-                    areaColor: item.areaColor || "#389BB7"
-                  }
+                    areaColor: item.areaColor || "#389BB7",
+                  },
                 },
                 label: {
                   normal: {
                     show: item.showLabel,
                     textStyle: {
-                      color: "#fff"
-                    }
-                  }
-                }
+                      color: "#fff",
+                    },
+                  },
+                },
               };
             } else {
               return {
@@ -321,12 +321,12 @@ export default {
                 itemStyle: {
                   normal: {
                     borderColor: "#91e6ff",
-                    areaColor: "#389BB7"
-                  }
-                }
+                    areaColor: "#389BB7",
+                  },
+                },
               };
             }
-          })
+          }),
         },
         series: [
           {
@@ -337,48 +337,56 @@ export default {
             rippleEffect: {
               period: 15,
               scale: 6,
-              brushType: "fill"
+              brushType: "fill",
             },
             hoverAnimation: true,
             itemStyle: {
               normal: {
-                color: function(params) {
+                color: function (params) {
                   return levelColorMap[params.value[3]];
                 },
                 shadowBlur: 10,
-                shadowColor: "#333"
-              }
+                shadowColor: "#333",
+              },
             },
-            data: this.initSeriesData(opt.data)
-          }
-        ]
+            data: this.initSeriesData(opt.data),
+          },
+        ],
       };
       chart.setOption(option);
       // 点击事件
       chart.off("click");
-      chart.on("click", function(params) {
+      chart.on("click", function (params) {
         let _self = this;
         if (opt.goDown && params.name !== name[idx]) {
           if (cityMap[params.name]) {
-            let url = cityMap[params.name];
-            request(url, "get").then(res => {
-              curGeoJson.UTF8Encoding = res.config.UTF8Encoding;
-              curGeoJson.features = res.config.features;
-              curGeoJson.properties = res.config.properties;
-              curGeoJson.type = res.config.type;
-              _this.$echarts.registerMap(params.name, curGeoJson);
-              _this.resetOption(_self, option, params.name);
-            });
+            // let url = cityMap[params.name];
+            // request(url, "get").then(res => {
+            //   curGeoJson.UTF8Encoding = res.config.UTF8Encoding;
+            //   curGeoJson.features = res.config.features;
+            //   curGeoJson.properties = res.config.properties;
+            //   curGeoJson.type = res.config.type;
+            //   _this.$echarts.registerMap(params.name, curGeoJson);
+            //   _this.resetOption(_self, option, params.name);
+            // });
+
+            let res = cityMap[params.name];
+            curGeoJson.UTF8Encoding = res.UTF8Encoding;
+            curGeoJson.features = res.features;
+            curGeoJson.properties = res.properties;
+            curGeoJson.type = res.type;
+            _this.$echarts.registerMap(params.name, curGeoJson);
+            _this.resetOption(_self, option, params.name);
           }
         }
       });
-      chart.setMap = function(mapName) {
+      chart.setMap = function (mapName) {
         let _self = this;
         if (mapName.indexOf("市") < 0) mapName = mapName + "市";
         let citySource = cityMap[mapName];
         if (citySource) {
           let url = "./map/" + citySource + ".json";
-          request(url, "get").then(res => {
+          request(url, "get").then((res) => {
             curGeoJson.UTF8Encoding = res.config.UTF8Encoding;
             curGeoJson.features = res.config.features;
             curGeoJson.properties = res.config.properties;
@@ -457,7 +465,7 @@ export default {
         吉安市: "jian",
         宜春市: "yichun",
         抚州市: "fuzhou",
-        上饶市: "shangrao"
+        上饶市: "shangrao",
       };
       let breadcrumb = {
         type: "group",
@@ -470,17 +478,17 @@ export default {
             left: -90,
             top: -5,
             shape: {
-              points: line
+              points: line,
             },
             style: {
               stroke: "#fff",
-              key: name
+              key: name,
               // lineWidth: 2,
             },
-            onclick: function() {
+            onclick: function () {
               let name = this.style.key;
               this.resetOption(chart, option, name);
-            }
+            },
           },
           {
             type: "text",
@@ -490,12 +498,12 @@ export default {
               text: name,
               textAlign: "center",
               fill: style.textColor,
-              font: style.font
+              font: style.font,
             },
-            onclick: function() {
+            onclick: function () {
               let name = this.style.text;
               this.resetOption(chart, option, name);
-            }
+            },
           },
           {
             type: "text",
@@ -506,14 +514,14 @@ export default {
               text: cityToPinyin[name] ? cityToPinyin[name].toUpperCase() : "",
               textAlign: "center",
               fill: style.textColor,
-              font: '12px "Microsoft YaHei", sans-serif'
+              font: '12px "Microsoft YaHei", sans-serif',
             },
-            onclick: function() {
+            onclick: function () {
               let name = this.style.name;
               this.resetOption(chart, option, name);
-            }
-          }
-        ]
+            },
+          },
+        ],
       };
       pos.leftCur += pos.leftPlus;
       return breadcrumb;
@@ -532,7 +540,7 @@ export default {
           temp.push({
             name: data[i].name,
             value: geoCoord.concat(data[i].value, data[i].level),
-            dataOne: "2222"
+            dataOne: "2222",
           });
         }
       }
@@ -545,35 +553,35 @@ export default {
     zoomAnimation() {
       let chart = this.$echarts.init(document.getElementById("chart-panel"));
       let count = null;
-      let zoom = function(per) {
+      let zoom = function (per) {
         if (!count) count = per;
         count = count + per;
         chart.setOption({
           geo: {
-            zoom: count
-          }
+            zoom: count,
+          },
         });
         if (count < 1)
-          window.requestAnimationFrame(function() {
+          window.requestAnimationFrame(function () {
             zoom(0.2);
           });
       };
-      window.requestAnimationFrame(function() {
+      window.requestAnimationFrame(function () {
         zoom(0.2);
       });
-    }
+    },
   },
   mounted() {
     this.$nextTick(() => {
       this.initMap();
     });
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .mapgodown {
-  height: 40vh;
+  height: 80vh;
 }
 </style>
 <style lang="scss">

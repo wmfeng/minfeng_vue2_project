@@ -157,6 +157,9 @@ export default {
                 if (data.success) {
                     this.treeData = data.data;
                     this.formData = data.data[0];
+                }else{
+                    this.treeData = data;
+                    this.formData = data[0];
                 }
             });
         },

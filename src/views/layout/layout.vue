@@ -7,6 +7,7 @@
       </el-scrollbar>
       <div class="layout_main">
         <breadCrumb></breadCrumb>
+        <TagsView></TagsView>
         <div class="main_body">
           <tabsBar singleAlive></tabsBar>
         </div>
@@ -18,13 +19,16 @@
 import logoBar from "@/views/layout/logoBar";
 import navBar from "./navBar";
 import breadCrumb from "./breadCrumb";
+import TagsView from "./TagsView";
 import tabsBar from "./tabsBar";
+
 export default {
   name: "layout",
   components: {
     logoBar,
     navBar,
     breadCrumb,
+    TagsView,
     tabsBar
   }
 };

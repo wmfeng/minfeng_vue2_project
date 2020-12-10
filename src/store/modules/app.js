@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import {
   getNav
 } from '@/api/login'
@@ -6,7 +7,9 @@ import {
 } from "@/router"
 const app = {
   state: {
-    navOpen: false,
+    // 中英文
+    language: Cookies.get('language') || 'zh',
+    navOpen: true,
     path: "",
     title: "",
     icon: "",
@@ -16,11 +19,20 @@ const app = {
     // navBar: constantRouterMap
   },
   mutations: {
+    // 中英文
+    SET_LANGUAGE: (state, language) => {
+      state.language = language
+      Cookies.set('language', language)
+    },
     SET_NAVOPEN: (state) => {
       state.navOpen = !state.navOpen;
     }
   },
   actions: {
+    // 中英文
+    setLanguage({ commit }, language) {
+      commit('SET_LANGUAGE', language)
+    },
     //获取nav
     GetNav({
       commit
