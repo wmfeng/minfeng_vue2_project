@@ -35,7 +35,7 @@ var cityMap = {
   // "赣州市": ganzhou,
   // "吉安市": jian,
   // "宜春市": yichun,
-  // "抚州市": fuzhou,
+  // "抚州市": fuzhou
   // "上饶市": shangrao
 };
 var geoCoordMap = {
