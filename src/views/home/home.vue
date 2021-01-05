@@ -46,7 +46,11 @@
       <div class="b con_d">
         <p>我的任务</p>
         <div class="echarts">
-          <ve-ring :data="chartData" :settings="chartSettings" class="echarts"></ve-ring>
+          <ve-ring
+            :data="chartData"
+            :settings="chartSettings"
+            class="echarts"
+          ></ve-ring>
         </div>
       </div>
     </div>
@@ -146,7 +150,7 @@ export default {
       let sData3 = [400, 600, 700, 700, 1000, 400, 400, 600, 700];
       echartsThree.setOption(EchartsThree(xData, sData1, sData2, sData3));
       let app = { currentIndex: -1 };
-      setInterval(function () {
+      setInterval(function() {
         //定时器
         let dataLen = echartsThree._model.option.series[0].data.length;
         // 取消之前高亮的图形
@@ -175,25 +179,53 @@ export default {
       let echartsOne = this.$echarts.init(this.$refs.echartsOne);
       let echartsTwo = this.$echarts.init(this.$refs.echartsTwo);
       let echartsThree = this.$echarts.init(this.$refs.echartsThree);
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", function() {
         echartsOne.resize();
         echartsTwo.resize();
         echartsThree.resize();
       });
     },
 
-     directions(...args) {
+    directions(...args) {
       var [start, ...remaining] = args;
       var [finish, ...stops] = remaining.reverse();
-      console.log('args',`${args}`);
-      console.log('start',`${start}`);
-      console.log('finish',`${finish}`);
-      console.log('stops',`${stops}`);
-    }
-
+      console.log("args", `${args}`);
+      console.log("start", `${start}`);
+      console.log("finish", `${finish}`);
+      console.log("stops", `${stops}`);
+    },
+    getNowTime() {
+      let date = new Date();
+      return (
+        date.getFullYear() +
+        "-" +
+        (date.getMonth() + 1).toString().padStart(2, "0") +
+        "-" +
+        date
+          .getDate()
+          .toString()
+          .padStart(2, "0") +
+        " " +
+        date
+          .getHours()
+          .toString()
+          .padStart(2, "0") +
+        ":" +
+        date
+          .getMinutes()
+          .toString()
+          .padStart(2, "0") +
+        ":" +
+        date
+          .getSeconds()
+          .toString()
+          .padStart(2, "0")
+      );
+    },
   },
   mounted() {
-    this.directions('1','2','3','4');
+    console.log(111, this.getNowTime());
+    // this.directions('1','2','3','4');
 
     window.addEventListener("resize", this.resizeTheChart);
     this.echartsOne();

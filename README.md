@@ -21,13 +21,13 @@
 3、logoBar.vue文件中：
     computed: {
         lang: {
-        get() {
-            return this.$store.state.app.language;
-        },
-        set(lang) {
-            this.$i18n.locale = lang;
-            this.$store.dispatch("setLanguage", lang);
-        }
+            get() {
+                return this.$store.state.app.language;
+            },
+            set(lang) {
+                this.$i18n.locale = lang;
+                this.$store.dispatch("setLanguage", lang);
+            }
         }
     },
 

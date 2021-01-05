@@ -15,5 +15,5 @@ export default [
   ...videoRouter,
   ...editRouter,
   ...weatherserviceRouter,
-  ...systemManageRouter,
+  // ...systemManageRouter,
 ];
