@@ -58,6 +58,7 @@
 </template>
 <script>
 import { EchartsOne, EchartsTwo, EchartsThree } from "@/assets/echarts/home";
+import { TestEcharts } from "@/assets/echarts/test";
 export default {
   components: {},
   data() {
@@ -83,22 +84,23 @@ export default {
     // 供应项目统计
     echartsOne() {
       let echartsOne = this.$echarts.init(this.$refs.echartsOne);
-      let xData = [
-        "1月",
-        "2月",
-        "3月",
-        "4月",
-        "5月",
-        "6月",
-        "7月",
-        "8月",
-        "9月",
-        "10月",
-        "11月",
-        "12月",
-      ];
-      let sData = [42, 40, 59, 48, 42, 63, 65, 58, 58, 62, 63, 65];
-      echartsOne.setOption(EchartsOne(xData, sData));
+      // let xData = [
+      //   "1月",
+      //   "2月",
+      //   "3月",
+      //   "4月",
+      //   "5月",
+      //   "6月",
+      //   "7月",
+      //   "8月",
+      //   "9月",
+      //   "10月",
+      //   "11月",
+      //   "12月",
+      // ];
+      // let sData = [42, 40, 59, 48, 42, 63, 65, 58, 58, 62, 63, 65];
+      // echartsOne.setOption(EchartsOne(xData, sData));
+      echartsOne.setOption(TestEcharts());
     },
     // 登记类型统计
     echartsTwo() {
